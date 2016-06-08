@@ -1,0 +1,263 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../bower_components/app-layout/app-scrollpos-control/app-scrollpos-control.html">
+
+<dom-module id="page-catalogue">
+
+  <template>
+
+    <style>
+      :host {
+        display: block;
+        padding: 10px;
+      }
+      .card {
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        padding: 16px;
+        margin: 24px;
+        border-radius: 5px;
+        background-color: #fff;
+        color: #757575;
+      }
+      .circle {
+        display: inline-block;
+        height: 64px;
+        width: 64px;
+        border-radius: 50%;
+        background: #ddd;
+        line-height: 64px;
+        font-size: 30px;
+        color: #555;
+        text-align: center;
+      }
+      #toolbar-epicier {
+        color: var(--app-primary-color);
+        font-size: 22px;
+      }
+      .drawer-list {
+        margin: 0 20px;
+      }
+      .drawer-list a {
+        display: block;
+        padding: 0 16px;
+        line-height: 40px;
+        text-decoration: none;
+        color: var(--app-secondary-color);
+      }
+      .drawer-list a.iron-selected {
+        color: black;
+        font-weight: bold;
+        border-left-color: var(--app-primary-color);
+        border-left-width: medium;
+        border-left-style: solid;
+      }
+      .drawer-list a:hover {
+        background-color: rgb(240, 240, 240);
+      }
+      a {
+        text-decoration: none;
+      }
+      .zone-en-tete {
+        height: 48px;
+        line-height: 48px;
+        background: #eceff1;
+        border: solid;
+        border-color: #cfd8dc;
+        border-width: 1px 0;
+        font-size: 16px;
+        color: #424242;
+        font-weight: bold;
+      }
+      app-box {
+        height: 300px;
+        padding-bottom: 150px;
+        margin-top: -200px;
+        /*height: 100%;*/
+      }
+      app-toolbar.tall {
+        height: 148px;
+      }
+      app-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 212px;
+        color: #fff;
+        background-color: black;
+        --app-header-background-front-layer: {
+          background-image: url(//app-layout-assets.appspot.com/assets/bg1.jpg);
+          background-position: left center;
+        };
+      }
+      paper-icon-button {
+        --paper-icon-button-ink-color: white;
+      }
+    </style>
+
+<!-- APP-ROUTE -->
+    <app-route
+        route="{{route}}"
+        pattern="/:zone"
+        data="{{routeData}}"
+        tail="{{subroute}}">
+    </app-route>
+    <app-route
+        route="{{subroute}}"
+        pattern="/:categorie"
+        data="{{subrouteData}}"
+        tail="{{categoriesubroute}}">
+    </app-route>
+
+<!-- IRON-AJAX -->
+    <iron-ajax
+      auto
+      url="[[_computeURL(routeData.zone)]]"
+      handle-as="json"
+      loading="{{loading}}"
+      last-response="{{catalogue}}">
+    </iron-ajax>
+
+<!-- APP-SCROLLPOS-CONTROL-->
+    <app-scrollpos-control selected="{{subrouteData.categorie}}"></app-scrollpos-control>
+
+<!-- UI ELEMENTS -->
+    <app-drawer-layout>
+      <app-drawer>
+        <a href="/">
+          <app-toolbar id="toolbar-epicier">
+            <iron-icon icon="chevron-left"></iron-icon>
+            <div title> (logo) L'Épicier</div>
+          </app-toolbar>
+        </a>
+        <app-toolbar class="zone-en-tete">
+          <div title>Mon Congélateur</div>
+          <iron-icon icon="search"></iron-icon>
+        </app-toolbar>
+        <iron-selector selected="{{selectCategorie}}" attr-for-selected="name" class="drawer-list" role="navigation">
+          <template id="listeCategorie" is="dom-repeat" items="[[catalogue.categories]]" filter="_filterZone">
+            <a name="[[item.titre]]" href$="[[_getItemHref(item)]]">[[item.titre]]</a>
+          </template>
+        </iron-selector>
+      </app-drawer>
+      <app-header-layout>
+        <app-header condenses reveals effects="waterfall resize-title blend-background parallax-background">
+          <app-toolbar>
+<!--TODO BUG FIX: LA PROPRIETE DRAWER-TOGGLE est incompatible avec les autres
+                  et fait en sorte que les paper-icon-buttons ne sont plus visible
+            <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+-->
+            <paper-icon-button icon="menu"></paper-icon-button>
+            <paper-icon-button icon="shopping-cart"></paper-icon-button>
+            <h4 condensed-title>[[selectCategorie]]</h4>
+            <paper-icon-button icon="shopping-cart"></paper-icon-button>
+          </app-toolbar>
+          <app-toolbar class="tall">
+            <h1 title>[[selectCategorie]]</h1>
+          </app-toolbar>
+        </app-header>
+
+<!--
+        <app-box effects="parallax-background">
+
+          <img background src="https://source.unsplash.com/category/food/800x600" style="width:100%; height: 600px" />
+        </app-box>
+-->
+        <div>prefix: [[route.prefix]]</div>
+        <div>tail: [[routeData.zone]]</div>
+        <div>tail: [[subrouteData.categorie]]</div>
+        <template id="listeItems" is="dom-repeat" items="[[catalogue.items]]" filter="_computeFilter">
+          <div class="card">
+            <div class="circle">[[item.prix]]$</div>
+            <h1>[[item.nom]]</h1>
+            <p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>
+            <p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>
+          </div>
+        </template>
+      </app-header-layout>
+    </app-drawer-layout>
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'page-catalogue',
+
+      properties : {
+        catalogue: {
+          type: Object,
+          value: null
+        },
+        route: {
+          type: Object,
+          value: null
+        },
+        subrouteData: {
+          type: Object,
+          value: null
+        },
+        routeData: {
+          type: Object,
+          value: null
+        },
+        selectCategorie:{
+          type: String,
+          value: null
+        }
+      },
+      observers: [
+        '_subrouteChanged(subrouteData.categorie)',
+        '_routeChanged(routeData.zone)'
+      ],
+      _routeChanged: function(zone) {
+        if (zone) {
+          this.$.listeCategorie.render();
+        }
+      },
+      _subrouteChanged: function(categorie) {
+        if (categorie) {
+          this.$.listeItems.render();
+        }
+      },
+      _filterZone: function(item) {
+        if (this.routeData) {
+          return item.zone == this.routeData.zone;
+        }
+      },
+      _computeFilter: function(item) {
+        if (this.subrouteData) {
+          return item.categorie == this.subrouteData.categorie;
+        }
+        else{
+          return null;
+        }
+      },
+      _getItemHref: function(item) {
+        // By returning null when `itemId` is undefined, the href attribute won't be set and
+        // the link will be disabled.
+        return item.nom ? [this.route.prefix, this.routeData.zone, item.nom].join('/') : null;
+      },
+      _computeURL: function(zone) {
+//TODO cette méthode est appelée trop souvent. Trouver pourquoi et corriger...
+        if (zone) {
+          var asdf = '/data/catalogue-' + zone + '.json';
+          //alert('var: ' + asdf);
+          return asdf;
+        }
+      }
+    });
+
+  </script>
+
+</dom-module>

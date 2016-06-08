@@ -1,0 +1,202 @@
+{
+  "reference" : {
+    "version" : 0.01,
+    "usermodif" : "Bruno",
+    "datemodif" : "6 juin 2016"
+  },
+  "items" : [
+    {
+      "categorie" : "conserve",
+      "code" : 10100,
+      "detail" : "conserve - 1",
+      "format" : "5 x 254g",
+      "nom" : "Jus de tomate",
+      "prix" : 5,
+      "recommandation1" : 6,
+      "recommandation2" : 12,
+      "zone" : "gardemanger"
+    },
+    {
+      "categorie" : "conserve",
+      "code" : 10100,
+      "detail" : "conserve - 2",
+      "format" : "5 x 254g",
+      "nom" : "Jus de tomate2",
+      "prix" : 5,
+      "recommandation1" : 6,
+      "recommandation2" : 12,
+      "zone" : "gardemanger"
+    },
+    {
+      "categorie" : "conserve",
+      "code" : 10100,
+      "detail" : "conserve - 3",
+      "format" : "5 x 254g",
+      "nom" : "Jus de tomate3",
+      "prix" : 5,
+      "recommandation1" : 6,
+      "recommandation2" : 12,
+      "zone" : "gardemanger"
+    },
+    {
+      "categorie" : "conserve",
+      "code" : 10100,
+      "detail" : "conserve - 14",
+      "format" : "5 x 254g",
+      "nom" : "Jus de tomate4",
+      "prix" : 5,
+      "recommandation1" : 6,
+      "recommandation2" : 12,
+      "zone" : "gardemanger"
+    },
+    {
+      "categorie" : "conserve",
+      "code" : 10100,
+      "detail" : "conserve - 15",
+      "format" : "5 x 254g",
+      "nom" : "Jus de tomate5",
+      "prix" : 5,
+      "recommandation1" : 6,
+      "recommandation2" : 12,
+      "zone" : "gardemanger"
+    },
+    {
+      "categorie" : "conserve",
+      "code" : 10100,
+      "detail" : "conserve - 16",
+      "format" : "5 x 254g",
+      "nom" : "Jus de tomate6",
+      "prix" : 5,
+      "recommandation1" : 6,
+      "recommandation2" : 12,
+      "zone" : "gardemanger"
+    },
+    {
+      "categorie" : "conserve",
+      "code" : 10100,
+      "detail" : "conserve - 17",
+      "format" : "5 x 254g",
+      "nom" : "Jus de tomate7",
+      "prix" : 5,
+      "recommandation1" : 6,
+      "recommandation2" : 12,
+      "zone" : "gardemanger"
+    },
+    {
+      "categorie" : "conserve",
+      "code" : 10100,
+      "detail" : "conserve - 18",
+      "format" : "5 x 254g",
+      "nom" : "Jus de tomate8",
+      "prix" : 5,
+      "recommandation1" : 6,
+      "recommandation2" : 12,
+      "zone" : "gardemanger"
+    },
+    {
+      "categorie" : "conserve",
+      "code" : 10100,
+      "detail" : "conserve - 19",
+      "format" : "5 x 254g",
+      "nom" : "Jus de tomate9",
+      "prix" : 5,
+      "recommandation1" : 6,
+      "recommandation2" : 12,
+      "zone" : "gardemanger"
+    },
+     {
+      "categorie" : "conserve",
+      "code" : 10100,
+      "detail" : "conserve - 110",
+      "format" : "5 x 254g",
+      "nom" : "Jus de tomate10",
+      "prix" : 5,
+      "recommandation1" : 6,
+      "recommandation2" : 12,
+      "zone" : "gardemanger"
+    },
+    {
+      "categorie" : "conserve",
+      "code" : 10100,
+      "detail" : "conserve - 111",
+      "format" : "5 x 254g",
+      "nom" : "Jus de tomate11",
+      "prix" : 5,
+      "recommandation1" : 6,
+      "recommandation2" : 12,
+      "zone" : "gardemanger"
+    },
+    {
+      "categorie" : "dejeuner",
+      "code" : 10100,
+      "detail" : "Bon au dejeuner 0",
+      "format" : "5 x 254g",
+      "nom" : "Cheerios 0",
+      "prix" : 5,
+      "recommandation1" : 6,
+      "recommandation2" : 12,
+      "zone" : "gardemanger"
+    },
+    {
+      "categorie" : "dejeuner",
+      "code" : 10100,
+      "detail" : "Bon au dejeuner 01",
+      "format" : "5 x 254g",
+      "nom" : "Cheerios 01",
+      "prix" : 5,
+      "recommandation1" : 6,
+      "recommandation2" : 12,
+      "zone" : "gardemanger"
+    },
+    {
+      "categorie" : "dejeuner",
+      "code" : 10100,
+      "detail" : "Bon au dejeuner 02",
+      "format" : "5 x 254g",
+      "nom" : "Cheerios 02",
+      "prix" : 5,
+      "recommandation1" : 6,
+      "recommandation2" : 12,
+      "zone" : "gardemanger"
+    },
+    {
+      "categorie" : "dejeuner",
+      "code" : 10100,
+      "detail" : "Bon au dejeuner 03",
+      "format" : "5 x 254g",
+      "nom" : "Cheerios 03",
+      "prix" : 5,
+      "recommandation1" : 6,
+      "recommandation2" : 12,
+      "zone" : "gardemanger"
+    },
+    {
+      "categorie" : "dejeuner",
+      "code" : 10100,
+      "detail" : "Bon au dejeuner 04",
+      "format" : "5 x 254g",
+      "nom" : "Cheerios 04",
+      "prix" : 5,
+      "recommandation1" : 6,
+      "recommandation2" : 12,
+      "zone" : "gardemanger"
+    }
+  ],
+  "categories" : [
+    {
+      "nom" : "conserve",
+      "titre" : "Conserves",
+      "zone": "gardemanger"
+    },
+    {
+      "nom" : "dejeuner",
+      "titre" : "Déjeuner",
+      "zone": "gardemanger"
+    },
+    {
+      "nom" : "section vide",
+      "titre" : "Pas d'items ici!",
+      "zone": "gardemanger"
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+{
+  "reference" : {
+    "version" : 0.01,
+    "usermodif" : "Bruno",
+    "datemodif" : "6 juin 2016"
+  },
+  "items" : [
+    {
+      "categorie" : "poulet",
+      "code" : 10100,
+      "detail" : "c bon du poulet",
+      "format" : "5 x 454g",
+      "nom" : "Cuisse de poulet",
+      "prix" : 39,
+      "recommandation1" : 6,
+      "recommandation2" : 12,
+      "zone" : "congelateur"
+    },
+    {
+      "categorie" : "poulet",
+      "code" : 10640,
+      "detail" : "Parfait pour un bbq",
+      "format" : "7 x 250g",
+      "nom" : "Poitrine de poulet",
+      "prix" : 85,
+      "recommandation1" : 1,
+      "recommandation2" : 2,
+      "zone" : "congelateur"
+    },
+    {
+      "categorie" : "boeuf",
+      "code" : 10640,
+      "detail" : "Parfait pour un bbq",
+      "format" : "7 x 250g",
+      "nom" : "Steak contre-filet 3/4",
+      "prix" : 85,
+      "recommandation1" : 1,
+      "recommandation2" : 2,
+      "zone" : "congelateur"
+    },
+    {
+      "categorie" : "boeuf",
+      "code" : 10640,
+      "detail" : "Parfait pour un bbq",
+      "format" : "7 x 250g",
+      "nom" : "Steak contre-filet 3/4",
+      "prix" : 85,
+      "recommandation1" : 1,
+      "recommandation2" : 2,
+      "zone" : "congelateur"
+    },
+    {
+      "categorie" : "boeuf",
+      "code" : 10640,
+      "detail" : "Parfait pour un bbq",
+      "format" : "7 x 250g",
+      "nom" : "Steak contre-filet 3/4",
+      "prix" : 85,
+      "recommandation1" : 1,
+      "recommandation2" : 2,
+      "zone" : "congelateur"
+    },
+    {
+      "categorie" : "boeuf",
+      "code" : 10640,
+      "detail" : "Parfait pour un bbq",
+      "format" : "7 x 250g",
+      "nom" : "Steak contre-filet 3/4",
+      "prix" : 85,
+      "recommandation1" : 1,
+      "recommandation2" : 2,
+      "zone" : "congelateur"
+    },
+    {
+      "categorie" : "boeuf",
+      "code" : 10640,
+      "detail" : "Parfait pour un bbq",
+      "format" : "7 x 250g",
+      "nom" : "Steak contre-filet 3/4",
+      "prix" : 85,
+      "recommandation1" : 1,
+      "recommandation2" : 2,
+      "zone" : "congelateur"
+    },
+    {
+      "categorie" : "boeuf",
+      "code" : 10310,
+      "detail" : "excellent pour bouilli ou recette x",
+      "format" : "6 x 340g",
+      "nom" : "Cubes de boeuf: choix tendre",
+      "prix" : 58,
+      "recommandation1" : 1,
+      "recommandation2" : 2,
+      "zone" : "congelateur"
+    },
+    {
+      "categorie" : "boeuf",
+      "code" : 10510,
+      "detail" : "excellent pour bouilli ou recette x",
+      "format" : "10 x 140g",
+      "nom" : "Bifteck de boeuf minute",
+      "prix" : 45,
+      "recommandation1" : 1,
+      "recommandation2" : 2,
+      "zone" : "congelateur"
+    },
+    {
+      "categorie" : "boeuf",
+      "code" : 10530,
+      "detail" : "excellent pour bouilli ou recette x",
+      "format" : "6 x 300g",
+      "nom" : "Steak du roi 1/2",
+      "prix" : 58,
+      "recommandation1" : 1,
+      "recommandation2" : 2,
+      "zone" : "congelateur"
+    },
+    {
+      "categorie" : "boeuf",
+      "code" : 10620,
+      "detail" : "excellent pour bouilli ou recette x",
+      "format" : "8 x 220g",
+      "nom" : "Surlonge désossé 3/4",
+      "prix" : 62,
+      "recommandation1" : 1,
+      "recommandation2" : 2,
+      "zone" : "congelateur"
+    },
+    {
+      "categorie" : "boeuf",
+      "code" : 12270,
+      "detail" : "Un classique pour les fondues chinoises",
+      "format" : "6 x 225g",
+      "nom" : "Fondue chinoise de boeuf",
+      "prix" : 45,
+      "recommandation1" : 2,
+      "recommandation2" : 4,
+      "zone" : "congelateur"
+    },
+    {
+      "categorie" : "boeuf",
+      "code" : 10640,
+      "detail" : "Parfait pour un bbq",
+      "format" : "7 x 250g",
+      "nom" : "Steak contre-filet 3/4",
+      "prix" : 85,
+      "recommandation1" : 1,
+      "recommandation2" : 2,
+      "zone" : "congelateur"
+    },
+    {
+      "categorie" : "boeuf",
+      "code" : 10640,
+      "detail" : "Parfait pour un bbq",
+      "format" : "7 x 250g",
+      "nom" : "Steak contre-filet 3/4",
+      "prix" : 85,
+      "recommandation1" : 1,
+      "recommandation2" : 2,
+      "zone" : "congelateur"
+    },
+    {
+      "categorie" : "boeuf",
+      "code" : 10640,
+      "detail" : "Parfait pour un bbq",
+      "format" : "7 x 250g",
+      "nom" : "Steak contre-filet 3/4",
+      "prix" : 85,
+      "recommandation1" : 1,
+      "recommandation2" : 2,
+      "zone" : "congelateur"
+    }
+  ],
+  "categories" : [
+    {
+      "nom" : "poulet",
+      "titre" : "Poulet",
+      "zone": "congelateur"
+    },
+    {
+      "nom" : "boeuf",
+      "titre" : "Boeuf",
+      "zone": "congelateur"
+    },
+    {
+      "nom" : "porc",
+      "titre" : "Porc",
+      "zone": "congelateur"
+    },
+    {
+      "nom" : "agneau",
+      "titre" : "Agneau",
+      "zone": "congelateur"
+    }
+  ]
+}

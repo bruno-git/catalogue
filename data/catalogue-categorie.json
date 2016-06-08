@@ -1,0 +1,46 @@
+{
+  "reference" : {
+    "version" : 0.01,
+    "usermodif" : "Bruno",
+    "datemodif" : "6 juin 2016"
+  },
+  "congelateur" : [
+    {
+      "nom" : "poulet",
+      "titre" : "Poulet",
+      "zone": "congelateur"
+    },
+    {
+      "nom" : "boeuf",
+      "titre" : "Boeuf",
+      "zone": "congelateur"
+    },
+    {
+      "nom" : "porc",
+      "titre" : "Porc",
+      "zone": "congelateur"
+    },
+    {
+      "nom" : "agneau",
+      "titre" : "Agneau",
+      "zone": "congelateur"
+    }
+  ],
+  "gardemanger" : [
+    {
+      "nom" : "conserve",
+      "titre" : "Conserves",
+      "zone": "gardemanger"
+    },
+    {
+      "nom" : "dejeuner",
+      "titre" : "Déjeuner",
+      "zone": "gardemanger"
+    },
+    {
+      "nom" : "section vide",
+      "titre" : "Pas d'items ici!",
+      "zone": "gardemanger"
+    }
+  ]
+}
