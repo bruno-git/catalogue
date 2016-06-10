@@ -1,0 +1,90 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/firebase-element/firebase-collection.html">
+<link rel="import" href="../bower_components/firebase-element/firebase-auth.html">
+<dom-module id="panier-data">
+
+  <template>
+
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+<!-- FIREBASE-AUTH -->
+    <firebase-auth id="authenticate"
+                   user="{{userauth}}"
+                   location="https://project-248641088282056501.firebaseio.com/"
+                   provider="google"
+                   on-login="_loginCompleted"
+                   on-logout="_logoutCompleted"
+                   autologin="false"
+                   on-error="_loginError"
+                   log>
+    </firebase-auth>
+
+<!-- FIREBASE-COLLECTION -->
+    <firebase-collection id="content"
+                         location="https://project-248641088282056501.firebaseio.com/items"
+                         data="{{panier}}"
+                         log>
+    </firebase-collection>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'panier-data',
+
+      properties: {
+        panier: {
+          type: Array,
+          value: [],
+          notify: true
+        },
+        panierRef: {
+          type: Object,
+          value: null
+        }
+      },
+      ready: function() {
+        this.panierRef = new Firebase('https://project-248641088282056501.firebaseio.com/items');
+      },
+      signIn: function(){
+        this.$.authenticate.login();
+        console.log('PANIER-DATA SIGN IN TRIGGERED');
+      },
+      _loginCompleted: function(){
+        console.log('login completed');
+      },
+      /**
+       * ajoute / met a jour l'item sélectionné.
+       * efface l'item si la quantié est 0 ou non valide ou nulle
+       */
+      setItem: function(detail) {
+        var code = ([[detail.code]]).toString();
+        if(detail.quantite && detail.quantite > 0) {
+          this.panierRef.child(code).set(detail);
+        }
+        else {
+          this.panierRef.child(code).set(null);
+        }
+
+      }
+
+    });
+
+  </script>
+
+</dom-module>

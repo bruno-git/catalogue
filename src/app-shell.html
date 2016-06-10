@@ -18,11 +18,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/app-layout/app-box/app-box.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="my-icons.html">
+<link rel="import" href="panier-data.html">
 
 <dom-module id="app-shell">
 
@@ -65,8 +67,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
     </style>
-
+<!-- APP-LOCATION -->
     <app-location route="{{route}}"></app-location>
+
+<!-- APP-ROUTE -->
     <app-route
         route="{{route}}"
         pattern="/:page"
@@ -74,9 +78,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         tail="{{subroute}}">
     </app-route>
 
+<!-- PANIER-DATA -->
+    <panier-data id="monPanierData" panier="{{panier}}"></panier-data>
+
+<!-- PAPER-DIALOG (LOGIN) -->
+    <paper-dialog id="loginDialog" with-backdrop>
+      <h2>Connexion</h2>
+      Connectez-vous en un seul click via Google ou Facebook (à venir).
+      <div class="buttons">
+        <paper-button on-click="_signIn">Google</paper-button>
+      </div>
+    </paper-dialog>
+
+<!-- IRON-PAGES -->
     <iron-pages role="main" selected="[[page]]" attr-for-selected="name">
-      <page-view1 name="view1"></page-view1>
-      <page-catalogue name="catalogue" route="{{subroute}}"></page-catalogue>
+      <page-accueil name="accueil"></page-accueil>
+      <page-catalogue name="catalogue" route="{{subroute}}" panier="{{panier}}"></page-catalogue>
       <page-view3 name="view3"></page-view3>
     </iron-pages>
 
@@ -92,7 +109,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         page: {
           type: String,
-          value: 'view1',
+          value: 'accueil',
           reflectToAttribute: true,
           observer: '_pageChanged'
         },
@@ -104,9 +121,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       observers: [
         '_routePageChanged(routeData.page)'
       ],
-
+      listeners: {
+        'set-cart-item': '_onSetCartItem',
+        'login': '_openLoginDialog'
+      },
+      _signIn: function() {
+        this.$.monPanierData.signIn();
+      },
+      _openLoginDialog: function(event){
+        this.$.loginDialog.open();
+      },
+      _onSetCartItem: function(event){
+        var detail = event.detail;
+        this.$.monPanierData.setItem(detail);
+      },
       _routePageChanged: function(page) {
-        this.page = page || 'view1';
+        this.page = page || 'accueil';
       },
       _pageChanged: function(page) {
         // load page import on demand.

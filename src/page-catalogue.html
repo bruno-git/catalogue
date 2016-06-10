@@ -11,7 +11,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../bower_components/app-layout/app-scrollpos-control/app-scrollpos-control.html">
-
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/firebase-element/firebase-collection.html">
+<link rel="import" href="catalogue-item.html">
 <dom-module id="page-catalogue">
 
   <template>
@@ -78,12 +80,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: #424242;
         font-weight: bold;
       }
-      app-box {
-        height: 300px;
-        padding-bottom: 150px;
-        margin-top: -200px;
-        /*height: 100%;*/
-      }
       app-toolbar.tall {
         height: 148px;
       }
@@ -131,7 +127,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <!-- APP-SCROLLPOS-CONTROL-->
     <app-scrollpos-control selected="{{subrouteData.categorie}}"></app-scrollpos-control>
 
-<!-- UI ELEMENTS -->
+<!-- APP-DRAWER-LAYOUT -->
     <app-drawer-layout>
       <app-drawer>
         <a href="/">
@@ -144,12 +140,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <div title>Mon Congélateur</div>
           <iron-icon icon="search"></iron-icon>
         </app-toolbar>
-        <iron-selector selected="{{selectCategorie}}" attr-for-selected="name" class="drawer-list" role="navigation">
+        <iron-selector id="categorieSelector" selected="{{selectCategorie}}" attr-for-selected="name" class="drawer-list" role="navigation">
           <template id="listeCategorie" is="dom-repeat" items="[[catalogue.categories]]" filter="_filterZone">
             <a name="[[item.titre]]" href$="[[_getItemHref(item)]]">[[item.titre]]</a>
           </template>
         </iron-selector>
       </app-drawer>
+<!-- APP-HEADER-LAYOUT -->
       <app-header-layout>
         <app-header condenses reveals effects="waterfall resize-title blend-background parallax-background">
           <app-toolbar>
@@ -166,23 +163,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <h1 title>[[selectCategorie]]</h1>
           </app-toolbar>
         </app-header>
-
-<!--
-        <app-box effects="parallax-background">
-
-          <img background src="https://source.unsplash.com/category/food/800x600" style="width:100%; height: 600px" />
-        </app-box>
--->
-        <div>prefix: [[route.prefix]]</div>
-        <div>tail: [[routeData.zone]]</div>
-        <div>tail: [[subrouteData.categorie]]</div>
+        <template is="dom-if" if="{{!userlogged}}">
+          <app-toolbar style="background-color:yellow; color: black;">
+            <paper-button on-click="_connexion">Connectez-vous!<paper-button>
+          </app-toolbar>
+        </template>
+<!-- CONTENU PRINCIPAL -->
         <template id="listeItems" is="dom-repeat" items="[[catalogue.items]]" filter="_computeFilter">
-          <div class="card">
-            <div class="circle">[[item.prix]]$</div>
-            <h1>[[item.nom]]</h1>
-            <p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>
-            <p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>
-          </div>
+          <catalogue-item item="[[item]]" panier="{{panier}}" userlogged=[[userlogged]]></catalogue-item>
         </template>
       </app-header-layout>
     </app-drawer-layout>
@@ -201,7 +189,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
         route: {
           type: Object,
-          value: null
+          value: null,
+          observer: '_newroute'
         },
         subrouteData: {
           type: Object,
@@ -214,15 +203,47 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         selectCategorie:{
           type: String,
           value: null
+        },
+        panier: {
+          type: Array,
+          value: []
+        },
+        mysnapshot: {
+          type: Object,
+          value: null
+        },
+        userlogged: {
+          type: Boolean,
+          value: false
         }
       },
       observers: [
         '_subrouteChanged(subrouteData.categorie)',
         '_routeChanged(routeData.zone)'
       ],
+      _newroute: function(allo){
+        console.dir('route changed: ', allo);
+        if (this.subrouteData) {
+          var cat = this.subrouteData.categorie;
+          //alert('categorie: ', cat);
+          this.$.listeCategorie.render();
+        }
+        else {
+          //pas de subroute - choisir la categorie par default (#1)
+          //alert('pas de subroute');
+          //this.$.categorieSelector.select('poulet');
+          //alert(this.$.categorieSelector.selected);
+        }
+      },
+      _connexion: function() {
+        this.fire('login');
+      },
       _routeChanged: function(zone) {
+        //console.dir('zone: ', this.routeData);
+        //console.log('zone: ', this.routeData);
         if (zone) {
           this.$.listeCategorie.render();
+          //console.log('zone changee: ', zone);
         }
       },
       _subrouteChanged: function(categorie) {
