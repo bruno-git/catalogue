@@ -12,6 +12,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../bower_components/app-layout/app-scrollpos-control/app-scrollpos-control.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
 <link rel="import" href="../bower_components/firebase-element/firebase-collection.html">
 <link rel="import" href="catalogue-item.html">
 <dom-module id="page-catalogue">
@@ -155,7 +156,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
 -->
             <paper-icon-button icon="menu"></paper-icon-button>
-            <paper-icon-button icon="shopping-cart"></paper-icon-button>
+            <!-- USER IMAGE -->
+            <iron-image style="width:40px; height:40px;border-radius:100%;z-index:25;" sizing="contain"
+              src="[[userauth.google.cachedUserProfile.picture]]"
+              on-click="_logout">
+            </iron-image>
+            <a name="panier" href="/panier" tabindex="-1">
+              <paper-icon-button icon="shopping-cart"></paper-icon-button>
+            </a>
             <h4 condensed-title>[[selectCategorie]]</h4>
             <paper-icon-button icon="shopping-cart"></paper-icon-button>
           </app-toolbar>
@@ -163,7 +171,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <h1 title>[[selectCategorie]]</h1>
           </app-toolbar>
         </app-header>
-        <template is="dom-if" if="{{!userlogged}}">
+<!-- SECTION LOGIN -->
+        <template is="dom-if" if="[[!userlogged]]">
           <app-toolbar style="background-color:yellow; color: black;">
             <paper-button on-click="_connexion">Connectez-vous!<paper-button>
           </app-toolbar>
@@ -221,11 +230,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         '_subrouteChanged(subrouteData.categorie)',
         '_routeChanged(routeData.zone)'
       ],
-      _newroute: function(allo){
-        console.dir('route changed: ', allo);
+      _logout: function() {
+        this.fire('app-logout');
+      },
+      _newroute: function(newValue){
         if (this.subrouteData) {
           var cat = this.subrouteData.categorie;
-          //alert('categorie: ', cat);
+          console.log('categorie: ', cat);
           this.$.listeCategorie.render();
         }
         else {
@@ -236,9 +247,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       },
       _connexion: function() {
-        this.fire('login');
+        this.fire('app-login');
       },
       _routeChanged: function(zone) {
+        console.log('PAGE-CATALOGUE _routeChanged: ', zone);
         //console.dir('zone: ', this.routeData);
         //console.log('zone: ', this.routeData);
         if (zone) {
@@ -247,6 +259,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       },
       _subrouteChanged: function(categorie) {
+        console.log('PAGE-CATALOGUE _subrouteChanged: ', categorie);
         if (categorie) {
           this.$.listeItems.render();
         }

@@ -10,7 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
-<dom-module id="page-view3">
+<dom-module id="page-panier">
 
   <template>
 
@@ -43,22 +43,51 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin: 16px 0;
         color: #212121;
       }
+      app-header {
+        background-color: var(--app-primary-color);
+        color: #fff;
+      }
     </style>
+    <app-header-layout>
+      <app-header reveals>
+        <app-toolbar>
+          <iron-image src="../../images/epicier_blanc.png"></iron-image>
+          <div title>L'Épicier V2</div>
+          <iron-image style="width:40px; height:40px;border-radius:100%" sizing="contain"
+                      src="[[userauth.google.cachedUserProfile.picture]]"
+                      on-click="_logout"></iron-image>
+          <a name="panier" href="/panier">
+            <paper-icon-button icon="shopping-cart"></paper-icon-button>
+          </a>
+        </app-toolbar>
+      </app-header>
 
-    <div class="card">
-      <div class="circle">3</div>
-      <h1>View Three</h1>
-      <p>Modus commodo minimum eum te, vero utinam assueverit per eu.</p>
-      <p>Ea duis bonorum nec, falli paulo aliquid ei eum.Has at minim mucius aliquam, est id tempor laoreet.Pro saepe pertinax ei, ad pri animal labores suscipiantur.</p>
-    </div>
+      <template is="dom-repeat" items="[[panier]]">
+        <catalogue-item item="[[item]]" userlogged></catalogue-item>
+      </template>
 
+    </app-header-layout>
   </template>
 
   <script>
 
     Polymer({
 
-      is: 'page-view3'
+      is: 'page-panier',
+
+      properties: {
+        userauth: {
+          type: Object,
+          value: null
+        },
+        panier: {
+          type: Object,
+          value: null
+        }
+      },
+      _logout: function() {
+        this.fire('app-logout');
+      }
 
     });
 

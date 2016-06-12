@@ -9,6 +9,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
 
 <dom-module id="page-accueil">
 
@@ -52,11 +54,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <app-header reveals>
         <app-toolbar>
           <iron-image src="../../images/epicier_blanc.png"></iron-image>
-          <iron-icon icon="menu"></iron-icon>
           <div title>L'Épicier V2</div>
-          <paper-icon-button icon="shopping-cart"></paper-icon-button>
+          <iron-image style="width:40px; height:40px;border-radius:100%" sizing="contain"
+                      src="[[userauth.google.cachedUserProfile.picture]]"
+                      on-click="_logout"></iron-image>
+          <a name="panier2" href="/panier" tabindex="-1">
+            <paper-icon-button icon="shopping-cart"></paper-icon-button>
+          </a>
         </app-toolbar>
       </app-header>
+<!-- SECTION LOGIN -->
+      <template is="dom-if" if="[[!userauth]]">
+        <app-toolbar style="background-color:yellow; color: black;">
+          <paper-button on-click="_connexion">Connectez-vous!<paper-button>
+        </app-toolbar>
+      </template>
       <div class="card">
         <div class="circle">1</div>
         <h1>Congélateur</h1>
@@ -84,8 +96,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     Polymer({
 
-      is: 'page-accueil'
+      is: 'page-accueil',
 
+      properties: {
+        userauth: {
+          type: Object,
+          value: null
+        }
+      },
+      _logout: function() {
+        this.fire('app-logout');
+      },
+      _connexion: function() {
+        this.fire('app-login');
+      },
     });
 
   </script>

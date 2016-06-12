@@ -23,10 +23,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <!-- FIREBASE-AUTH -->
     <firebase-auth id="authenticate"
                    user="{{userauth}}"
-                   location="https://project-248641088282056501.firebaseio.com/"
+                   location="https://epicerieenligne.firebaseio.com/panier/items"
                    provider="google"
                    on-login="_loginCompleted"
-                   on-logout="_logoutCompleted"
                    autologin="false"
                    on-error="_loginError"
                    log>
@@ -34,7 +33,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <!-- FIREBASE-COLLECTION -->
     <firebase-collection id="content"
-                         location="https://project-248641088282056501.firebaseio.com/items"
+                         location="https://epicerieenligne.firebaseio.com/panier/items"
                          data="{{panier}}"
                          log>
     </firebase-collection>
@@ -56,17 +55,41 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         panierRef: {
           type: Object,
           value: null
+        },
+        userauth: {
+          type: Object,
+          value: null,
+          notify: true,
+          observer: '_userauthChanged'
+        },
+        userlogged: {
+          type: Boolean,
+          value: false,
+          notify: true,
+          observer: '_userloggedChanged'
         }
       },
-      ready: function() {
-        this.panierRef = new Firebase('https://project-248641088282056501.firebaseio.com/items');
+      logout: function(){
+        this.$.authenticate.logout();
+      },
+      _userauthChanged: function(newValue) {
+        if (newValue) {
+          this.userlogged = true;
+        }
+        else {
+          this.userlogged = false;
+        }
+      },
+      _userloggedChanged: function(newValue) {
+        console.log('PANIER-DATA USERLOGGED CHANGED TO: ', newValue);
       },
       signIn: function(){
         this.$.authenticate.login();
         console.log('PANIER-DATA SIGN IN TRIGGERED');
       },
       _loginCompleted: function(){
-        console.log('login completed');
+        console.log('panier-data: login completed');
+        this.panierRef = new Firebase('https://epicerieenligne.firebaseio.com/panier/items');
       },
       /**
        * ajoute / met a jour l'item sélectionné.
@@ -80,9 +103,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         else {
           this.panierRef.child(code).set(null);
         }
-
       }
-
     });
 
   </script>

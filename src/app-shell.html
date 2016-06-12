@@ -64,9 +64,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .drawer-list a.subroute {
         padding-left: 32px;
       }
-
-
     </style>
+
 <!-- APP-LOCATION -->
     <app-location route="{{route}}"></app-location>
 
@@ -79,22 +78,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </app-route>
 
 <!-- PANIER-DATA -->
-    <panier-data id="monPanierData" panier="{{panier}}"></panier-data>
+    <panier-data id="monPanierData" panier="{{panier}}" userauth="{{userauth}}"></panier-data>
 
 <!-- PAPER-DIALOG (LOGIN) -->
     <paper-dialog id="loginDialog" with-backdrop>
       <h2>Connexion</h2>
       Connectez-vous en un seul click via Google ou Facebook (à venir).
       <div class="buttons">
-        <paper-button on-click="_signIn">Google</paper-button>
+        <paper-button on-click="_signIn" dialog-confirm>Google</paper-button>
       </div>
     </paper-dialog>
 
 <!-- IRON-PAGES -->
     <iron-pages role="main" selected="[[page]]" attr-for-selected="name">
-      <page-accueil name="accueil"></page-accueil>
-      <page-catalogue name="catalogue" route="{{subroute}}" panier="{{panier}}"></page-catalogue>
-      <page-view3 name="view3"></page-view3>
+      <page-accueil name="accueil" userauth="[[userauth]]"></page-accueil>
+      <page-catalogue name="catalogue" route="{{subroute}}" panier="{{panier}}" userlogged="[[userlogged]]"></page-catalogue>
+      <page-panier name="panier" userauth="[[userauth]]" panier=[[panier]]></page-panier>
     </iron-pages>
 
   </template>
@@ -115,6 +114,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
         monajax: {
           type: Object
+        },
+        userauth: {
+          type: Object,
+          value: null,
+          observer: '_userauthChanged'
+        },
+        userlogged: {
+          type: Boolean,
+          value: false
         }
       },
 
@@ -123,7 +131,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ],
       listeners: {
         'set-cart-item': '_onSetCartItem',
-        'login': '_openLoginDialog'
+        'app-login': '_openLoginDialog',
+        'app-logout': '_logout'
+      },
+      _logout: function(){
+        this.$.monPanierData.logout();
+      },
+      _userauthChanged: function(newValue) {
+        if (newValue) {
+          this.userlogged = true;
+        }
+        else{
+          this.userlogged = false;
+        }
       },
       _signIn: function() {
         this.$.monPanierData.signIn();
