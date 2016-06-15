@@ -13,6 +13,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-layout/app-scrollpos-control/app-scrollpos-control.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../bower_components/paper-menu/paper-submenu.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/firebase-element/firebase-collection.html">
 <link rel="import" href="catalogue-item.html">
 <dom-module id="page-catalogue">
@@ -69,6 +73,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       a {
         text-decoration: none;
+        color: black;
       }
       .zone-en-tete {
         height: 48px;
@@ -80,6 +85,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         font-size: 16px;
         color: #424242;
         font-weight: bold;
+        @apply(--layout-horizontal);
+        @apply(--layout-justified);
       }
       app-toolbar.tall {
         height: 148px;
@@ -112,8 +119,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-route
         route="{{subroute}}"
         pattern="/:categorie"
-        data="{{subrouteData}}"
-        tail="{{categoriesubroute}}">
+        data="{{subrouteData}}">
     </app-route>
 
 <!-- IRON-AJAX -->
@@ -137,15 +143,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <div title> (logo) L'Épicier</div>
           </app-toolbar>
         </a>
-        <app-toolbar class="zone-en-tete">
-          <div title>Mon Congélateur</div>
+        <div class="zone-en-tete">
+          <div title>[[routeData.zone]]</div>
           <iron-icon icon="search"></iron-icon>
-        </app-toolbar>
+        </div>
+
+<!-- CATEGORIES DE LA ZONE -->
         <iron-selector id="categorieSelector" selected="{{selectCategorie}}" attr-for-selected="name" class="drawer-list" role="navigation">
           <template id="listeCategorie" is="dom-repeat" items="[[catalogue.categories]]" filter="_filterZone">
-            <a name="[[item.titre]]" href$="[[_getItemHref(item)]]">[[item.titre]]</a>
+            <a name="[[item.titre]]" href$="[[_getItemHref(item.nom)]]">[[item.titre]]</a>
           </template>
+<!-- TODO A CORRIGER: LA METHODE GETHELPHREF EST APPELEE AVANT QUE ROUTE SOIT INITIALISE -->
+          <!--<a name="aide" href$="[[_getHelpHref()]]">Aide</a>-->
+          <a name="aide" href="/catalogue/congelateur/aide">Aide</a>
         </iron-selector>
+
       </app-drawer>
 <!-- APP-HEADER-LAYOUT -->
       <app-header-layout>
@@ -178,6 +190,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </app-toolbar>
         </template>
 <!-- CONTENU PRINCIPAL -->
+        <template is="dom-if" if="[[!subrouteData.categorie]]">
+          carte de présentation
+          <div>
+            zone: [[routeData.zone]]
+          </div>
+          <div>
+            subroute? [[subroute]]
+          </div>
+          <div>
+            categorie: [[subrouteData.categorie]]
+          </div>
+        </template>
+<!-- AFFICHE L'AIDE -->
+        <template is="dom-if" if="[[_ifCategorieAide(subrouteData.categorie)]]">
+          aide
+          créer un élément pour afficher l'aide contextuelle de cette page
+        </template>
+
+          </aside>
+<!-- LISTE ITEMS DE LA CATEGORIE -->
         <template id="listeItems" is="dom-repeat" items="[[catalogue.items]]" filter="_computeFilter">
           <catalogue-item item="[[item]]" panier="{{panier}}" userlogged=[[userlogged]]></catalogue-item>
         </template>
@@ -201,11 +233,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           value: null,
           observer: '_newroute'
         },
-        subrouteData: {
+        routeData: {
           type: Object,
           value: null
         },
-        routeData: {
+        subroute: {
+          type: Object,
+          value: null
+        },
+        subrouteData: {
           type: Object,
           value: null
         },
@@ -224,12 +260,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         userlogged: {
           type: Boolean,
           value: false
+        },
+        testselectvalue: {
+          type: Number
         }
       },
       observers: [
         '_subrouteChanged(subrouteData.categorie)',
         '_routeChanged(routeData.zone)'
       ],
+      _ifCategorieAide: function(categorie) {
+        return categorie === 'aide' ? true: false;
+      },
+      _toggle: function() {
+        this.$.collapse.toggle();
+      },
       _logout: function() {
         this.fire('app-logout');
       },
@@ -250,7 +295,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.fire('app-login');
       },
       _routeChanged: function(zone) {
-        console.log('PAGE-CATALOGUE _routeChanged: ', zone);
+        //console.log('PAGE-CATALOGUE _routeChanged: ', zone);
         //console.dir('zone: ', this.routeData);
         //console.log('zone: ', this.routeData);
         if (zone) {
@@ -277,17 +322,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           return null;
         }
       },
-      _getItemHref: function(item) {
+      _getItemHref: function(nomItem) {
         // By returning null when `itemId` is undefined, the href attribute won't be set and
         // the link will be disabled.
-        return item.nom ? [this.route.prefix, this.routeData.zone, item.nom].join('/') : null;
+        return nomItem ? [this.route.prefix, this.routeData.zone, nomItem].join('/') : null;
+      },
+      _getHelpHref: function(){
+        alert('get help href');
+        alert('this.route.prefix: ', this.route.prefix);
+        var valeur = this._getItemHref('aide');
+        console.log('valeur: ', valeur);
+        return this._getItemHref('aide');
       },
       _computeURL: function(zone) {
 //TODO cette méthode est appelée trop souvent. Trouver pourquoi et corriger...
         if (zone) {
-          var asdf = '/data/catalogue-' + zone + '.json';
+          var computedURL = '/data/catalogue-' + zone + '.json';
           //alert('var: ' + asdf);
-          return asdf;
+          return computedURL;
         }
       }
     });

@@ -46,7 +46,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div>format: [[item.format]]</div>
       <div>prix: [[item.prix]]$</div>
       <div>code: [[item.code]]</div>
-      <paper-input id="quantite" label="Quantité" type="number" disabled$=[[!userlogged]]></paper-input>
+      <paper-input id="quantite" label="Quantité" type="number" disabled$=[[!userlogged]] value="[[item.quantite]]"></paper-input>
       <paper-button on-click="_setItem">Ajout - Firebase</paper-button>
       <paper-button on-click="test">user logged?</paper-button>
     </div>

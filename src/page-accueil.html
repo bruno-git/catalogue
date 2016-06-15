@@ -19,14 +19,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
       :host {
         display: block;
-        padding: 10px;
+
+        /*background-image: url(//app-layout-assets.appspot.com/assets/bg1.jpg);*/
+        background-image: url('https://source.unsplash.com/category/nature/800x600');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 100vh;
+        overflow-y: auto;
       }
       .card {
         box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
         padding: 16px;
         margin: 24px;
         border-radius: 5px;
-        background-color: #fff;
+        background-color: rgba(255, 255, 255, 0.8);
+        /*background-color: #fff;*/
         color: #757575;
       }
       .circle {
@@ -46,8 +54,40 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: #212121;
       }
       app-header {
-        background-color: var(--app-primary-color);
+        /*background-color: var(--app-primary-color);*/
         color: #fff;
+      }
+      .principal {
+        @apply(--layout-horizontal);
+      }
+      .gauche {
+        overflow-y: auto;
+        width: 300px;
+        padding: 10px;
+        background-image: linear-gradient(to right, black, 80%, rgba(255,255,255,0.01));
+        @apply(--layout-flex-none);
+        @apply(--layout-vertical);
+      }
+      .carte-menu {
+        width: 90%;
+        background-color: rgb(65, 65, 65);
+        height: 200px;
+        margin-top: 10px;
+        /*background-image: url('https://source.unsplash.com/category/food/300x200');*/
+
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
+      }
+      .carte-menu > a {
+        font-size: 22px;
+      }
+      .detail {
+        font-size: 14px;
+        color: white;
+      }
+      a {
+        text-decoration: none;
+        color: white;
       }
     </style>
     <app-header-layout>
@@ -63,31 +103,45 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </a>
         </app-toolbar>
       </app-header>
-<!-- SECTION LOGIN -->
+
+<!-- LOGIN STATE TOOLBAR -->
       <template is="dom-if" if="[[!userauth]]">
         <app-toolbar style="background-color:yellow; color: black;">
           <paper-button on-click="_connexion">Connectez-vous!<paper-button>
         </app-toolbar>
       </template>
-      <div class="card">
-        <div class="circle">1</div>
-        <h1>Congélateur</h1>
-        <a name="congelateur" href="/catalogue/congelateur">Ouvrir le congélateur</a>
-        <p>Ut labores minimum atomorum pro. Laudem tibique ut has.
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      </div>
-      <div class="card">
-        <div class="circle">2</div>
-        <h1>Garge-manger</h1>
-        <a name="catalogue" href="/catalogue/gardemanger">Ouvrir le garde-manger</a>
-        <p>Ut labores minimum atomorum pro. Laudem tibique ut has.
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+
+      <div class="principal">
+  <!-- MENU GAUCHE -->
+  <!-- TODO lien congelateur, garde-manger et aide -->
+        <div class="gauche">
+          <div class="carte-menu">
+            <a name="congelateur" href="/catalogue/congelateur">Choisir les aliments de mon congélateur</a>
+            <div class="detail">Viande surgelée AAA, poissons, légumes</div>
+          </div>
+          <div class="carte-menu">
+            <a name="catalogue" href="/catalogue/gardemanger">Choisir les aliments de mon garde-manger</a>
+            <div class="detail">Conserves, produits pour déjeûner, épices...</div>
+          </div>
+          <div class="carte-menu">
+            <a name="catalogue" href="/catalogue/gardemanger">Choisir mes produits ménagers</a>
+            <div class="detail">Produits de nettoyage et autres</div>
+          </div>
+          <div class="carte-menu">
+            Aide
+          </div>
+        </div>
+  <!-- SECTION CONTENU PRINCIPAL -->
+  <!-- TODO remplacer ces cartes par le contenu contextuel -->
+        <div class="droite">
+          <div class="card">
+            <div class="circle">1</div>
+            <h1>Bienvenue chez L'Épicier</h1>
+            <p>Vidéo introduction app et/ou service</p>
+            <p>Visuel sur le résultat d'une commande de 2-3-4 personnes (qté, prix, qualité)</p>
+            <p>Comment utiliser cette application?</p>
+          </div>
+        </div>
       </div>
     </app-header-layout>
   </template>
