@@ -38,8 +38,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: #555;
         text-align: center;
       }
-    </style>
+      .carte {
+        margin: 24px;
+        padding: 16px;
+        background-color: #fff;
+        @apply(--layout-horizontal);
 
+      }
+      .expand {
+        @apply(--layout-flex);
+      }
+    </style>
+<!--
     <div class="card">
       <div class="circle">[[item.prix]]</div>
       <h1>[[item.nom]]</h1>
@@ -49,6 +59,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <paper-input id="quantite" label="Quantité" type="number" disabled$=[[!userlogged]] value="[[item.quantite]]"></paper-input>
       <paper-button on-click="_setItem">Ajout - Firebase</paper-button>
       <paper-button on-click="test">user logged?</paper-button>
+    </div>
+-->
+    <div class="carte">
+      <div class="expand">[[item.nom]]</div>
+      <paper-input id="quantite" label="Quantité" type="number" disabled$=[[!userlogged]] value="[[item.quantite]]"></paper-input>
+      <div class="expand">format: [[item.format]]</div>
+      <div class="expand">prix: [[item.prix]]$</div>
+      <div>code: [[item.code]]</div>
     </div>
   </template>
 
