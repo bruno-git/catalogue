@@ -61,7 +61,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </a>
         </app-toolbar>
       </app-header>
+<!-- MESSAGE SI PANIER VIDE -->
 
+      <p hidden="[[_panierVide(panier.length)]]">
+        Votre panier est vide.
+      </p>
+<!-- LISTE CONTENU PANIER -->
       <template is="dom-repeat" items="[[panier]]">
         <catalogue-item item="[[item]]" userlogged></catalogue-item>
       </template>
@@ -81,9 +86,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           value: null
         },
         panier: {
-          type: Object,
-          value: null
+          type: Array,
+          value: []
         }
+      },
+      _panierVide: function(nbItems){
+        return !!nbItems;
       },
       _logout: function() {
         this.fire('app-logout');

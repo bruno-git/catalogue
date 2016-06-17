@@ -7,7 +7,7 @@
   "items" : [
     {
       "categorie" : "conserve",
-      "code" : 10100,
+      "code" : 20100,
       "detail" : "conserve - 1",
       "format" : "5 x 254g",
       "nom" : "Jus de tomate",
@@ -18,7 +18,7 @@
     },
     {
       "categorie" : "conserve",
-      "code" : 10100,
+      "code" : 20101,
       "detail" : "conserve - 2",
       "format" : "5 x 254g",
       "nom" : "Jus de tomate2",
@@ -29,7 +29,7 @@
     },
     {
       "categorie" : "conserve",
-      "code" : 10100,
+      "code" : 20102,
       "detail" : "conserve - 3",
       "format" : "5 x 254g",
       "nom" : "Jus de tomate3",
@@ -40,7 +40,7 @@
     },
     {
       "categorie" : "conserve",
-      "code" : 10100,
+      "code" : 20103,
       "detail" : "conserve - 14",
       "format" : "5 x 254g",
       "nom" : "Jus de tomate4",
@@ -51,7 +51,7 @@
     },
     {
       "categorie" : "conserve",
-      "code" : 10100,
+      "code" : 20104,
       "detail" : "conserve - 15",
       "format" : "5 x 254g",
       "nom" : "Jus de tomate5",
@@ -62,7 +62,7 @@
     },
     {
       "categorie" : "conserve",
-      "code" : 10100,
+      "code" : 20105,
       "detail" : "conserve - 16",
       "format" : "5 x 254g",
       "nom" : "Jus de tomate6",
@@ -73,7 +73,7 @@
     },
     {
       "categorie" : "conserve",
-      "code" : 10100,
+      "code" : 20106,
       "detail" : "conserve - 17",
       "format" : "5 x 254g",
       "nom" : "Jus de tomate7",
@@ -84,7 +84,7 @@
     },
     {
       "categorie" : "conserve",
-      "code" : 10100,
+      "code" : 20107,
       "detail" : "conserve - 18",
       "format" : "5 x 254g",
       "nom" : "Jus de tomate8",
@@ -95,7 +95,7 @@
     },
     {
       "categorie" : "conserve",
-      "code" : 10100,
+      "code" : 20108,
       "detail" : "conserve - 19",
       "format" : "5 x 254g",
       "nom" : "Jus de tomate9",
@@ -106,7 +106,7 @@
     },
      {
       "categorie" : "conserve",
-      "code" : 10100,
+      "code" : 20109,
       "detail" : "conserve - 110",
       "format" : "5 x 254g",
       "nom" : "Jus de tomate10",
@@ -117,7 +117,7 @@
     },
     {
       "categorie" : "conserve",
-      "code" : 10100,
+      "code" : 20110,
       "detail" : "conserve - 111",
       "format" : "5 x 254g",
       "nom" : "Jus de tomate11",
@@ -128,7 +128,7 @@
     },
     {
       "categorie" : "dejeuner",
-      "code" : 10100,
+      "code" : 20111,
       "detail" : "Bon au dejeuner 0",
       "format" : "5 x 254g",
       "nom" : "Cheerios 0",
@@ -139,7 +139,7 @@
     },
     {
       "categorie" : "dejeuner",
-      "code" : 10100,
+      "code" : 20112,
       "detail" : "Bon au dejeuner 01",
       "format" : "5 x 254g",
       "nom" : "Cheerios 01",
@@ -150,7 +150,7 @@
     },
     {
       "categorie" : "dejeuner",
-      "code" : 10100,
+      "code" : 20113,
       "detail" : "Bon au dejeuner 02",
       "format" : "5 x 254g",
       "nom" : "Cheerios 02",
@@ -161,7 +161,7 @@
     },
     {
       "categorie" : "dejeuner",
-      "code" : 10100,
+      "code" : 20114,
       "detail" : "Bon au dejeuner 03",
       "format" : "5 x 254g",
       "nom" : "Cheerios 03",
@@ -172,7 +172,7 @@
     },
     {
       "categorie" : "dejeuner",
-      "code" : 10100,
+      "code" : 20115,
       "detail" : "Bon au dejeuner 04",
       "format" : "5 x 254g",
       "nom" : "Cheerios 04",

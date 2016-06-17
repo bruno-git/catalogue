@@ -191,9 +191,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <paper-button on-click="_connexion">Connectez-vous!<paper-button>
           </app-toolbar>
         </template>
+
 <!-- CONTENU PRINCIPAL -->
         <template is="dom-if" if="[[!subrouteData.categorie]]">
-          carte de présentation
+          carte de présentation - sub route non sélectionnée
           <div>
             zone: [[routeData.zone]]
           </div>
@@ -274,11 +275,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ],
       _panierCatalogueUpdated: function(panier, catalogue){
         console.log('PANIER ET CATALOGUE UPDATED');
-        console.log('panier.length: ', panier.length);
-        console.log('catalogue: ', catalogue);
         //s'il y a des items dans le panier, consolide l'information avec le catalogue
         if (panier.length > 0 && catalogue) {
-          console.log('items dans le panier!');
           //pour chaque item dans le panier, trouver et mettre a jour sa quantite dans le catalogue
           for (var itemPanier of panier){
             //console.log('itemPanier: ', itemPanier);
@@ -286,9 +284,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               //console.log('itemCatalogue: ', itemCatalogue);
               if (itemPanier.code === itemCatalogue.code){
                 itemCatalogue.quantite = itemPanier.quantite;
-                console.log('itemPanier pareil: ', itemPanier);
-                console.log('itemCatalogue pareil: ', itemCatalogue);
-
+                //console.log('itemPanier pareil: ', itemPanier);
+                //console.log('itemCatalogue pareil: ', itemCatalogue);
               }
             }
           }
@@ -304,6 +301,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.fire('app-logout');
       },
       _newroute: function(newValue){
+        console.log('PAGE-CATALOGUE _routeChanged: ', newValue);
+        console.log('route: ', this.route);
+
         if (this.subrouteData) {
           var cat = this.subrouteData.categorie;
           console.log('categorie: ', cat);
@@ -320,16 +320,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.fire('app-login');
       },
       _routeChanged: function(zone) {
-        //console.log('PAGE-CATALOGUE _routeChanged: ', zone);
-        //console.dir('zone: ', this.routeData);
         //console.log('zone: ', this.routeData);
         if (zone) {
+          alert('allo?!');
           this.$.listeCategorie.render();
           //console.log('zone changee: ', zone);
         }
       },
       _subrouteChanged: function(categorie) {
         console.log('PAGE-CATALOGUE _subrouteChanged: ', categorie);
+        console.log('subroute: ', this.subroute);
         if (categorie) {
           this.$.listeItems.render();
         }

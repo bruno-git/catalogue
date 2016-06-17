@@ -76,7 +76,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         alert(this.userlogged);
       },
       _setItem: function() {
-        this.item.quantite = this.$.quantite.value;
+        //convert String value to number
+        this.item.quantite = parseInt(this.$.quantite.value, 10);
         this.fire('set-cart-item', this.item);
       }
 
