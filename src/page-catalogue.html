@@ -152,7 +152,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
 
 <!-- CATEGORIES DE LA ZONE -->
-        <iron-selector id="categorieSelector" selected="{{selectCategorie}}" attr-for-selected="name" class="drawer-list" role="navigation">
+        <iron-selector id="categorieSelector" selected="{{selectCategorie}}"
+        attr-for-selected="name" class="drawer-list" role="navigation"
+        fallback-selection="[[routeData.zone]]">
+
+          <a name$="[[routeData.zone]]" href$="/catalogue/[[routeData.zone]]/">
+            <div class="zone-en-tete">
+              <div title>[[routeData.zone]]</div>
+            </div>
+          </a>
+
           <template id="listeCategorie" is="dom-repeat" items="[[catalogue.categories]]" filter="_filterZone">
             <a name="[[item.titre]]" href$="[[_getItemHref(item.nom)]]">[[item.titre]]</a>
           </template>
@@ -194,16 +203,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </template>
 
 <!-- CONTENU PRINCIPAL -->
+<!-- INFORMATION SUR LA ZONE -->
         <template is="dom-if" if="[[!subrouteData.categorie]]">
-          carte de présentation - sub route non sélectionnée
-          <div>
-            zone: [[routeData.zone]]
-          </div>
-          <div>
-            subroute? [[subroute]]
-          </div>
-          <div>
-            categorie: [[subrouteData.categorie]]
+          <div class="card">
+            contenu de la carte d'information contextuelle pour la zone [[routeData.zone]]
+            tous nos produits sont beaux bons pas cher
           </div>
         </template>
 <!-- AFFICHE L'AIDE -->
@@ -235,7 +239,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         route: {
           type: Object,
           value: null,
-          observer: '_newroute'
+          observer: '_routeChanged'
         },
         routeData: {
           type: Object,
@@ -270,23 +274,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       },
       observers: [
-        '_subrouteChanged(subrouteData.categorie)',
-        '_routeChanged(routeData.zone)',
         '_panierCatalogueUpdated(panier, catalogue)'
       ],
+      ready: function() {
+        if (!this.$.categorieSelector.selected){
+          this.$.categorieSelector.selected = 1;
+        }
+      },
       _panierCatalogueUpdated: function(panier, catalogue){
         console.log('PANIER ET CATALOGUE UPDATED');
         //s'il y a des items dans le panier, consolide l'information avec le catalogue
         if (panier.length > 0 && catalogue) {
           //pour chaque item dans le panier, trouver et mettre a jour sa quantite dans le catalogue
           for (var itemPanier of panier){
-            //console.log('itemPanier: ', itemPanier);
             for (var itemCatalogue of catalogue.items){
-              //console.log('itemCatalogue: ', itemCatalogue);
               if (itemPanier.code === itemCatalogue.code){
                 itemCatalogue.quantite = itemPanier.quantite;
-                //console.log('itemPanier pareil: ', itemPanier);
-                //console.log('itemCatalogue pareil: ', itemCatalogue);
               }
             }
           }
@@ -301,50 +304,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _logout: function() {
         this.fire('app-logout');
       },
-      _newroute: function(newValue){
-        console.log('PAGE-CATALOGUE _routeChanged: ', newValue);
-        console.log('route: ', this.route);
-
-        if (this.subrouteData === null || this.subrouteData === undefined || this.subrouteData.categorie === "") {
-          //TODO mettre la catégorie par défaut ici
-          //this.route = '/catalogue/congelateur/poulet';
-          //alert('pas de categorie');
-        }
-        else {
-          console.log('****************************************');
-          console.log('this.subrouteData: ', this.subrouteData);
-        }
+      _routeChanged: function(newValue){
         if (this.subrouteData) {
-          console.log('!!!!!!!!!!!!!!route: ' , this.route);
-          var cat = this.subrouteData.categorie;
-          console.log('categorie: ', cat);
-          this.$.listeCategorie.render();
-        }
-        else {
-          alert('pas de subroute');
-          //pas de subroute - choisir la categorie par default (#1)
-          //alert('pas de subroute');
-          //this.$.categorieSelector.select('poulet');
-          //alert(this.$.categorieSelector.selected);
+          this.$.listeItems.render();
         }
       },
       _connexion: function() {
         this.fire('app-login');
-      },
-      _routeChanged: function(zone) {
-        //console.log('zone: ', this.routeData);
-        if (zone) {
-          //alert('page-catalogue: _routeChanged');
-          this.$.listeCategorie.render();
-          //console.log('zone changee: ', zone);
-        }
-      },
-      _subrouteChanged: function(categorie) {
-        console.log('PAGE-CATALOGUE _subrouteChanged: ', categorie);
-        console.log('subroute: ', this.subroute);
-        if (categorie) {
-          this.$.listeItems.render();
-        }
       },
       _filterZone: function(item) {
         if (this.routeData) {
@@ -362,14 +328,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _getItemHref: function(nomItem) {
         // By returning null when `itemId` is undefined, the href attribute won't be set and
         // the link will be disabled.
+        //alert('item href');
         return nomItem ? [this.route.prefix, this.routeData.zone, nomItem].join('/') : null;
       },
       _getHelpHref: function(){
-        alert('get help href');
-        alert('this.route.prefix: ', this.route.prefix);
-        var valeur = this._getItemHref('aide');
-        console.log('valeur: ', valeur);
         return this._getItemHref('aide');
+      },
+      _getZoneHref: function(zone) {
+        alert('zone href: ', zone);
+
+        return this.routeData ? [this.route.prefix, this.routeData.zone].join('/'): null;
       },
       _computeURL: function(zone) {
 //TODO cette méthode est appelée trop souvent. Trouver pourquoi et corriger...
