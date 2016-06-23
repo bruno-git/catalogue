@@ -305,12 +305,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         console.log('PAGE-CATALOGUE _routeChanged: ', newValue);
         console.log('route: ', this.route);
 
+        if (this.subrouteData === null || this.subrouteData === undefined || this.subrouteData.categorie === "") {
+          //TODO mettre la catégorie par défaut ici
+          //this.route = '/catalogue/congelateur/poulet';
+          //alert('pas de categorie');
+        }
+        else {
+          console.log('****************************************');
+          console.log('this.subrouteData: ', this.subrouteData);
+        }
         if (this.subrouteData) {
+          console.log('!!!!!!!!!!!!!!route: ' , this.route);
           var cat = this.subrouteData.categorie;
           console.log('categorie: ', cat);
           this.$.listeCategorie.render();
         }
         else {
+          alert('pas de subroute');
           //pas de subroute - choisir la categorie par default (#1)
           //alert('pas de subroute');
           //this.$.categorieSelector.select('poulet');

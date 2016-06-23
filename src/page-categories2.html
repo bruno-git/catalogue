@@ -101,12 +101,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         align-items: center;
         justify-content: center;
       }
-      .container {
-        height: calc(100vh - 64px);
+      .container-horizontal {
+
         @apply(--layout-horizontal);
         @apply(--layout-around-justified);
         @apply(--layout-center);
-
+      }
+      .container-vertical {
+        height: calc(100vh - 64px);
+        width: 100vw;
+        @apply(--layout-vertical);
+        @apply(--layout-around-justified);
       }
       .zone {
         transition: opacity 300ms;
@@ -123,7 +128,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         left: 20px;
         /*background-color: rgba(1, 1, 1, 0.2);*/
       }
-      a{
+      a {
         text-decoration: none;
         color: black;
       }
@@ -138,41 +143,51 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-header-layout>
       <app-header reveals>
         <app-toolbar>
+<!--
           <iron-image src="../../images/epicier.png"></iron-image>
           <div title>Catalogue</div>
+-->
+          <div title> </div>
           <iron-image style="width:40px; height:40px;border-radius:100%" sizing="cover"
                       src="[[userauth.google.cachedUserProfile.picture]]"
                       on-click="_logout"></iron-image>
+
           <a name="panier" href="/panier">
             <paper-icon-button icon="shopping-cart"></paper-icon-button>
           </a>
         </app-toolbar>
       </app-header>
 <!-- SECTION PRINCIPALE -->
-      <div class="container">
-        <a name="catalogue" href="/catalogue/congelateur/" class="zone">
-          <paper-material elevation="2">
-            <iron-image src="../../images/surgele.jpg" preload fade sizing="cover" class="image-categorie">
-            </iron-image>
-            <div class="titre">Congélateur</div>
-          </paper-material>
-        </a>
-        <a name="catalogue" href="/catalogue/gardemanger/" class="zone">
-          <paper-material elevation="1">
-            <iron-image src="../../images/conserve.jpg" preload fade sizing="cover" class="image-categorie">
-            </iron-image>
-            <div class="titre">Garde-manger</div>
+      <div class="container-vertical">
+        <div class="container-horizontal">
+          <iron-image src="../../images/epicier-original.png"></iron-image>
+        </div>
 
-          </paper-material>
-        </a>
-        <a name="catalogue" href="/catalogue/gardemanger/" class="zone">
-          <paper-material elevation="1">
-            <iron-image src="../../images/menage.png" preload fade sizing="cover" class="image-categorie">
-            </iron-image>
-            <div class="titre">Produits ménagers</div>
+        <div class="container-horizontal">
+          <a name="catalogue" href="/catalogue/congelateur/" class="zone">
+            <paper-material elevation="2">
+              <iron-image src="../../images/surgele.jpg" preload fade sizing="cover" class="image-categorie">
+              </iron-image>
+              <div class="titre">Congélateur</div>
+            </paper-material>
+          </a>
+          <a name="catalogue" href="/catalogue/gardemanger/" class="zone">
+            <paper-material elevation="1">
+              <iron-image src="../../images/conserve.jpg" preload fade sizing="cover" class="image-categorie">
+              </iron-image>
+              <div class="titre">Garde-manger</div>
 
-          </paper-material>
-        </a>
+            </paper-material>
+          </a>
+          <a name="catalogue" href="/catalogue/gardemanger/" class="zone">
+            <paper-material elevation="1">
+              <iron-image src="../../images/menage.png" preload fade sizing="cover" class="image-categorie">
+              </iron-image>
+              <div class="titre">Produits ménagers</div>
+
+            </paper-material>
+          </a>
+        </div>
       </div>
     </app-header-layout>
   </template>

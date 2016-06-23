@@ -1,0 +1,150 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<dom-module id="page-accueil2">
+
+  <template>
+
+    <style>
+      :host {
+        display: block;
+        /*
+        background-image: url('https://source.unsplash.com/category/nature/800x600');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 100vh;
+        overflow-y: auto;
+        */
+      }
+      .card {
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        padding: 16px;
+        margin: 24px;
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.8);
+        /*background-color: #fff;*/
+        color: #757575;
+      }
+      .circle {
+        display: inline-block;
+        height: 64px;
+        width: 64px;
+        border-radius: 50%;
+        background: #ddd;
+        line-height: 64px;
+        font-size: 30px;
+        color: #555;
+        text-align: center;
+      }
+      h1 {
+        font-size: 22px;
+        margin: 16px 0;
+        color: #212121;
+      }
+      app-header {
+        /*background-color: var(--app-primary-color);*/
+        color: #fff;
+      }
+      .principal {
+        height: 100vh;
+        @apply(--layout-vertical);
+        @apply(--layout-around-justified);
+        @apply(--layout-center);
+      }
+      .gauche {
+        overflow-y: auto;
+        width: 300px;
+        padding: 10px;
+        background-image: linear-gradient(to right, black, 80%, rgba(255,255,255,0.01));
+        @apply(--layout-flex-none);
+        @apply(--layout-vertical);
+      }
+      .carte-menu {
+        width: 90%;
+        background-color: rgb(65, 65, 65);
+        height: 200px;
+        margin-top: 10px;
+        /*background-image: url('https://source.unsplash.com/category/food/300x200');*/
+
+        @apply(--layout-vertical);
+        @apply(--layout-center-center);
+      }
+      .carte-menu > a {
+        font-size: 22px;
+      }
+      .detail {
+        font-size: 14px;
+        color: white;
+      }
+      a {
+        text-decoration: none;
+        color: white;
+      }
+      paper-button {
+        color: black;
+      }
+      .bloc {
+        /*margin-top: 10px;*/
+      }
+      .image-principale {
+        background-color: black;
+        height: 400px;
+        width: 800px;
+      }
+    </style>
+
+      <div class="principal">
+
+        <div class="bloc">
+          <iron-image src="../../images/epicier-original.png"></iron-image>
+        </div>
+        <div class="bloc">
+          One liner de fou
+        </div>
+        <div class="bloc">
+          <iron-image src="https://source.unsplash.com/category/food/800x400" class="image-principale" preload fade></iron-image>
+        </div>
+        <div class="bloc">
+          <a href="/categories2/" tabindex="-1">
+            <paper-button raised>Magasiner</paper-button>
+          </a>
+        </div>
+      </div>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'page-accueil2',
+
+      properties: {
+        userauth: {
+          type: Object,
+          value: null
+        }
+      },
+      _logout: function() {
+        this.fire('app-logout');
+      },
+      _connexion: function() {
+        this.fire('app-login');
+      },
+    });
+
+  </script>
+
+</dom-module>
