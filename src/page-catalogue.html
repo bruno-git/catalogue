@@ -219,7 +219,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </aside>
 <!-- LISTE ITEMS DE LA CATEGORIE -->
         <template id="listeItems" is="dom-repeat" items="[[catalogue.items]]" filter="_computeFilter">
-          <catalogue-item item="[[item]]" panier="{{panier}}" userlogged=[[userlogged]]></catalogue-item>
+          <catalogue-item item="[[item]]" userlogged=[[userlogged]]></catalogue-item>
         </template>
       </app-header-layout>
     </app-drawer-layout>
@@ -260,10 +260,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         panier: {
           type: Array,
           value: []
-        },
-        mysnapshot: {
-          type: Object,
-          value: null
         },
         userlogged: {
           type: Boolean,
