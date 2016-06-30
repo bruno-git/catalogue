@@ -17,7 +17,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../bower_components/paper-menu/paper-submenu.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../bower_components/firebase-element/firebase-collection.html">
 <link rel="import" href="catalogue-item.html">
 <dom-module id="page-catalogue">
 
@@ -280,7 +279,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _panierCatalogueUpdated: function(panier, catalogue){
         console.log('PANIER ET CATALOGUE UPDATED');
         //s'il y a des items dans le panier, consolide l'information avec le catalogue
-        if (panier.length > 0 && catalogue) {
+        //if (panier.length > 0 && catalogue) {
+        if (panier && catalogue) {
           //pour chaque item dans le panier, trouver et mettre a jour sa quantite dans le catalogue
           for (var itemPanier of panier){
             for (var itemCatalogue of catalogue.items){

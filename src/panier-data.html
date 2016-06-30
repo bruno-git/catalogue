@@ -8,8 +8,12 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/firebase-element/firebase-collection.html">
-<link rel="import" href="../bower_components/firebase-element/firebase-auth.html">
+
+<link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+
 <dom-module id="panier-data">
 
   <template>
@@ -19,26 +23,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
     </style>
+<!-- FIREBASE-APP -->
+    <firebase-app auth-domain="project-248641088282056501.firebaseapp.com"
+      database-url="https://project-248641088282056501.firebaseio.com"
+      api-key="AIzaSyDbV6U85Y49itSQtJxM5GcqcEzKkm25DgY">
+    </firebase-app>
 
 <!-- FIREBASE-AUTH -->
     <firebase-auth id="authenticate"
-                   user="{{userauth}}"
-                   location="https://epicerieenligne.firebaseio.com/panier/"
-                   provider="google"
-                   on-login="_loginCompleted"
-                   on-logout="_logoutCompleted"
-                   autologin="false"
-                   on-error="_loginError"
-                   log>
+      user="{{userauth}}"
+      provider="google"
+      on-error="_loginError"
+      signed-in="{{signedin}}">
     </firebase-auth>
 
-<!-- FIREBASE-COLLECTION -->
-    <firebase-collection id="content"
-                         location="[[location]]"
-                         data="{{panier}}"
-                         log>
-    </firebase-collection>
+<!-- FIREBASE-COLLECTION
+path="/panier/[[uid]]/items"
+-->
+    <firebase-query
+        id="query"
+        app-name="notes"
+        path="/panier/[[uid]]/items"
+        data="{{panier}}">
+    </firebase-query>
 
+<!-- FIREBASE-DOCUMENT -->
+    <firebase-document
+      id="firebaseDocument"
+      path="/panier/[[uid]]/items/[[itemid]]"
+      data="{{documentData}}">
+    </firebase-document>
   </template>
 
   <script>
@@ -48,9 +62,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'panier-data',
 
       properties: {
+        signedin: {
+          type: Boolean,
+          observer: '_userSignedInChanged'
+        },
+        uid: {
+          type: String
+        },
         panier: {
-          type: Array,
-          value: [],
+          type: Object,
+          value: null,
           notify: true
         },
         panierRef: {
@@ -60,33 +81,69 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         userauth: {
           type: Object,
           value: null,
-          notify: true
+          notify: true,
+          observer: '_userauthChanged'
         },
         userlogged: {
           type: Boolean,
-          value: false,
+          value: true,
           notify: true,
           observer: '_userloggedChanged'
         },
         location: {
           type: String,
           value: null
+        },
+        documentData: {
+          type: Object,
+          value: null
+        },
+        itemid: {
+          type: String,
+          value: null
+        }
+      },
+      _userauthChanged: function(newUserAuth) {
+        if (newUserAuth) {
+          //alert('new userauth not null');
+          //from _loginCompleted
+          this.userlogged = true;
+          console.log('this.userauth: ', this.userauth);
+          this.uid = this.userauth.uid;
+          //this.location = ['https://project-248641088282056501.firebaseio.com/panier', this.userauth.uid, 'items'].join('/');
+          //this.panierRef = new Firebase(this.location);
+        }
+        else {
+          //alert('new userauth is null');
+        }
+      },
+      _userSignedInChanged: function(userSignedIn){
+        if (userSignedIn) {
+          //alert('user signed in!');
+
+        }
+        else {
+          //alert('user not signed in');
         }
       },
       logout: function(){
-        this.$.authenticate.logout();
+        //this.$.authenticate.logout();
+        this.$.authenticate.signOut();
       },
       _userloggedChanged: function(newValue) {
         console.log('PANIER-DATA USERLOGGED CHANGED TO: ', newValue);
       },
       signIn: function(){
-        this.$.authenticate.login();
+        //this.$.authenticate.login();
+        this.$.authenticate.signInWithPopup();
         console.log('PANIER-DATA SIGN IN TRIGGERED');
       },
       _loginCompleted: function(e){
         this.userlogged = true;
-        this.location = ['https://epicerieenligne.firebaseio.com/panier', e.detail.user.uid, 'items'].join('/');
-        this.panierRef = new Firebase(this.location);
+
+        //this.location = ['https://project-248641088282056501.firebaseio.com/panier', e.detail.user.uid, 'items'].join('/');
+        //this.location = ['https://epicerieenligne.firebaseio.com/panier', e.detail.user.uid, 'items'].join('/');
+        //this.panierRef = new Firebase(this.location);
       },
       _logoutCompleted: function(e) {
         this.userlogged = false;
@@ -98,13 +155,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        * efface l'item si la quantié est 0 ou non valide ou nulle
        */
       setItem: function(detail) {
+        this.itemid = detail.code;
+        //delete items with no quantity
+        if (detail.quantite <1) {
+          detail = null;
+        }
+        this.documentData = detail;
+        console.log('value updated for user :', this.uid);
+        /*
         var code = ([[detail.code]]).toString();
-        if(detail.quantite && detail.quantite > 0) {
-          this.panierRef.child(code).set(detail);
-        }
-        else {
-          this.panierRef.child(code).set(null);
-        }
+        */
       }
     });
 
