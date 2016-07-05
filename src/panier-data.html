@@ -72,7 +72,8 @@ path="/panier/[[uid]]/items"
         panier: {
           type: Object,
           value: null,
-          notify: true
+          notify: true,
+          observer: '_panierChanged'
         },
         panierRef: {
           type: Object,
@@ -102,6 +103,10 @@ path="/panier/[[uid]]/items"
           type: String,
           value: null
         }
+      },
+      _panierChanged: function(newValue) {
+        console.log('panier-data panier changed: ', newValue);
+        console.log('uid: ', this.uid);
       },
       _userauthChanged: function(newUserAuth) {
         if (newUserAuth) {
