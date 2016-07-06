@@ -123,13 +123,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         data="{{subrouteData}}">
     </app-route>
 
-<!-- IRON-AJAX -->
+<!-- IRON-AJAX - zone selectionnée -->
     <iron-ajax
       auto
       url="[[_computeURL(routeData.zone)]]"
       handle-as="json"
       loading="{{loading}}"
       last-response="{{catalogue}}">
+    </iron-ajax>
+<!-- IRON-AJAX - catégories dans le drawer -->
+    <iron-ajax
+      auto
+      url="/data/catalogue-menu.json"
+      handle-as="json"
+      loading="{{loadingcategories}}"
+      last-response="{{menuzones}}">
     </iron-ajax>
 
 <!-- APP-SCROLLPOS-CONTROL-->
@@ -138,7 +146,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <!-- APP-DRAWER-LAYOUT -->
     <app-drawer-layout>
       <app-drawer>
-        <a href="/categories2">
+        <a href="/accueil2">
           <app-toolbar id="toolbar-epicier">
 
             <iron-image src="../../images/epicier.png"></iron-image>
@@ -151,6 +159,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
 
 <!-- CATEGORIES DE LA ZONE -->
+<!--
         <iron-selector id="categorieSelector" selected="{{selectCategorie}}"
         attr-for-selected="name" class="drawer-list" role="navigation"
         fallback-selection="[[routeData.zone]]">
@@ -164,31 +173,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <template id="listeCategorie" is="dom-repeat" items="[[catalogue.categories]]" filter="_filterZone">
             <a name="[[item.titre]]" href$="[[_getItemHref(item.nom)]]">[[item.titre]]</a>
           </template>
-<!-- TODO A CORRIGER: LA METHODE GETHELPHREF EST APPELEE AVANT QUE ROUTE SOIT INITIALISE -->
-          <!--<a name="aide" href$="[[_getHelpHref()]]">Aide</a>-->
           <a name="aide" href="/catalogue/congelateur/aide">Aide</a>
         </iron-selector>
-
-<!-- PAPER-MENU (NOUVELLE VERSION) -->
-
-<!-- version demo -->
+-->
+<!-- OH YEAH BABY! BABY! -->
         <paper-menu attr-for-item-title="label">
-          <paper-submenu label="ZONE A">
-            <paper-item class="menu-trigger">ZONE A</paper-item>
-            <paper-menu class="menu-content">
-              <paper-item>Categorie A1</paper-item>
-              <paper-item>Categorie A2</paper-item>
-            </paper-menu>
-          </paper-submenu>
-
-          <paper-submenu label="ZONE B">
-            <paper-item class="menu-trigger">ZONE B</paper-item>
-            <paper-menu class="menu-content">
-              <paper-item>Categorie B1</paper-item>
-              <paper-item>Categorie B2</paper-item>
-              <paper-item>Categorie B3</paper-item>
-            </paper-menu>
-          </paper-submenu>
+          <template is="dom-repeat" items="[[menuzones.zones]]" as="zone">
+            <paper-submenu label="[[zone.nom]]">
+              <paper-item class="menu-trigger zone-en-tete">[[zone.titre]]</paper-item>
+              <paper-menu class="menu-content">
+                <template is="dom-repeat" items="[[zone.categories]]" as="cat">
+                  <a name="[[cat.titre]]" href$="/catalogue/[[zone.nom]]/[[cat.nom]]">
+                    <paper-item>[[cat.titre]]</paper-item>
+                  </a>
+                </template>
+              </paper-menu>
+            </paper-submenu>
+          </template>
+          <a name="aide" href="/catalogue/aide">
+            <paper-item>Aide (accoter en bas)</paper-item>
+          </a>
         </paper-menu>
 
       </app-drawer>
@@ -237,11 +241,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           créer un élément pour afficher l'aide contextuelle de cette page
         </template>
 
-          </aside>
 <!-- LISTE ITEMS DE LA CATEGORIE -->
         <template id="listeItems" is="dom-repeat" items="[[catalogue.items]]" filter="_computeFilter">
           <catalogue-item item="[[item]]" userlogged=[[userlogged]]></catalogue-item>
         </template>
+
       </app-header-layout>
     </app-drawer-layout>
   </template>
@@ -294,9 +298,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         '_panierCatalogueUpdated(panier, catalogue)'
       ],
       ready: function() {
-        if (!this.$.categorieSelector.selected){
+        //selection de la valeur par defaut dans l'ancien menu
+        /*if (!this.$.categorieSelector.selected){
           this.$.categorieSelector.selected = 1;
-        }
+        }*/
       },
       _panierCatalogueUpdated: function(panier, catalogue){
         console.log('PANIER ET CATALOGUE UPDATED');
@@ -350,9 +355,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         // the link will be disabled.
         //alert('item href');
         return nomItem ? [this.route.prefix, this.routeData.zone, nomItem].join('/') : null;
-      },
-      _getHelpHref: function(){
-        return this._getItemHref('aide');
       },
       _getZoneHref: function(zone) {
         alert('zone href: ', zone);

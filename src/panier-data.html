@@ -67,7 +67,8 @@ path="/panier/[[uid]]/items"
           observer: '_userSignedInChanged'
         },
         uid: {
-          type: String
+          type: String,
+          value: null
         },
         panier: {
           type: Object,
@@ -124,7 +125,7 @@ path="/panier/[[uid]]/items"
       },
       _userSignedInChanged: function(userSignedIn){
         if (userSignedIn) {
-          //alert('user signed in!');
+          alert('user signed in!');
 
         }
         else {
