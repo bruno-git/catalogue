@@ -37,19 +37,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       signed-in="{{signedin}}">
     </firebase-auth>
 
-<!-- FIREBASE-COLLECTION
-path="/panier/[[uid]]/items"
--->
+<!-- FIREBASE-QUERY -->
     <firebase-query id="fbquery"
       app-name="firecatalogue"
-      path="/panier/[[userauth.uid]]/items"
+      path="/usagers/[[userauth.uid]]/commandes/active/items"
       data="{{panier}}">
     </firebase-query>
 
 <!-- FIREBASE-DOCUMENT -->
     <firebase-document id="firebaseDocument"
       app-name="firecatalogue"
-      path="/panier/[[userauth.uid]]/items/[[itemid]]"
+      path="/usagers/[[userauth.uid]]/commandes/active/items/[[itemid]]"
       data="{{documentData}}">
     </firebase-document>
   </template>

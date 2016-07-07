@@ -9,9 +9,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="catalogue-item.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
 
-<dom-module id="page-panier">
+<dom-module id="page-profil">
 
   <template>
 
@@ -19,35 +22,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
-      .card {
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-        padding: 16px;
-        margin: 24px;
-        border-radius: 5px;
-        background-color: #fff;
-        color: #757575;
-      }
-      .circle {
-        display: inline-block;
-        height: 64px;
-        width: 64px;
-        border-radius: 50%;
-        background: #ddd;
-        line-height: 64px;
-        font-size: 30px;
-        color: #555;
-        text-align: center;
-      }
-      h1 {
-        font-size: 22px;
-        margin: 16px 0;
-        color: #212121;
-      }
       app-header {
         background-color: var(--app-primary-color);
         color: #fff;
       }
     </style>
+
+<!-- FIREBASE-DOCUMENT -->
+    <firebase-document id="firebaseProfil"
+      app-name="firecatalogue"
+      path="/usagers/[[userauth.uid]]/profil"
+      data="{{profilData}}">
+    </firebase-document>
+
     <app-header-layout>
       <app-header reveals>
         <app-toolbar>
@@ -61,15 +48,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </a>
         </app-toolbar>
       </app-header>
-<!-- MESSAGE SI PANIER VIDE -->
 
-      <p hidden="[[_panierVide(panier.length)]]">
-        Votre panier est vide.
+      <div>Page profil</div>
+
+<!-- MESSAGE SI NON CONNECTÉ -->
+      <p hidden="[[userauth]]">
+        Votre panier est vide.us devez être connecté pour modifier votre profil...[[profilData.length]]
       </p>
-<!-- LISTE CONTENU PANIER -->
-      <template is="dom-repeat" items="[[panier]]">
-        <catalogue-item item="[[item]]" userlogged remover></catalogue-item>
-      </template>
+<!-- SECTION PROFIL -->
+      <paper-input label="Nombre de personnes" value="{{profilData.nbPersonnes}}"></paper-input>
+      <paper-input label="Budget" value="{{profilData.budget}}"></paper-input>-
+      <paper-input label="Aimez-vous les mets préparés?" value="{{profilData.metsPrepares}}"></paper-input>
+      <paper-button on-click="test">test</paper-button>
 
     </app-header-layout>
   </template>
@@ -78,25 +68,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     Polymer({
 
-      is: 'page-panier',
+      is: 'page-profil',
 
       properties: {
         userauth: {
           type: Object,
           value: null
         },
-        panier: {
-          type: Array,
-          value: []
+        profilData: {
+          type: Object,
+          value: null
         }
       },
-      _panierVide: function(nbItems){
-        return !!nbItems;
+      test: function(){
+        console.log('userauth: ', this.userauth);
+        console.log('profilData: ', this.profilData);
       },
       _logout: function() {
         this.fire('app-logout');
-      }
-
+      },
+      _connexion: function() {
+        this.fire('app-login');
+      },
     });
 
   </script>

@@ -108,43 +108,45 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--layout-center);
       }
     </style>
-      <app-drawer-layout>
-        <app-drawer align="end" opened>
-          <div class="drawer-droite">
-            <div>
-            <iron-image style="width:40px; height:40px;border-radius:100%;z-index:25;"
-              sizing="contain"
-              src="[[userauth.photoURL]]"
-              on-click="_logout">
-            </iron-image>
-          </div>
-            <paper-button on-click="_connexion">Connectez-vous!</paper-button>
-            <div>Zone clients</div>
-            <paper-button>Mon profil</paper-button>
-            <a href="/panier" tabindex="-1">
-              <paper-button>Mon panier</paper-button>
-            </a>
-            <paper-button>Mes Livraisons</paper-button>
-            <paper-button>Échanger des produits</paper-button>
-          </div>
-        </app-drawer>
-        <div class="principal">
-          <div class="bloc">
-            <iron-image src="../../images/epicier-original.png"></iron-image>
-          </div>
-          <div class="bloc">
-            One liner de fou
-          </div>
-          <div class="bloc">
-            <iron-image src="https://source.unsplash.com/category/food/800x400" class="image-principale" preload fade></iron-image>
-          </div>
-          <div class="bloc">
-            <a href="/catalogue" tabindex="-1">
-              <paper-button raised>Magasiner</paper-button>
-            </a>
-          </div>
+    <app-drawer-layout>
+      <app-drawer align="end" opened>
+        <div class="drawer-droite">
+          <div>
+          <iron-image style="width:40px; height:40px;border-radius:100%;z-index:25;"
+            sizing="contain"
+            src="[[userauth.photoURL]]"
+            on-click="_logout">
+          </iron-image>
         </div>
-      </app-drawer-layout>
+          <paper-button on-click="_connexion">Connectez-vous!</paper-button>
+          <div>Zone clients</div>
+          <a href="/profil" tabindex="-1">
+            <paper-button>Mon profil</paper-button>
+          </a>
+          <a href="/panier" tabindex="-1">
+            <paper-button>Mon panier</paper-button>
+          </a>
+          <paper-button>Mes Livraisons</paper-button>
+          <paper-button>Échanger des produits</paper-button>
+        </div>
+      </app-drawer>
+      <div class="principal">
+        <div class="bloc">
+          <iron-image src="../../images/epicier-original.png"></iron-image>
+        </div>
+        <div class="bloc">
+          One liner de fou
+        </div>
+        <div class="bloc">
+          <iron-image src="https://source.unsplash.com/category/food/800x400" class="image-principale" preload fade></iron-image>
+        </div>
+        <div class="bloc">
+          <a href="/catalogue" tabindex="-1">
+            <paper-button raised>Magasiner</paper-button>
+          </a>
+        </div>
+      </div>
+    </app-drawer-layout>
   </template>
 
   <script>
