@@ -9,10 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
-<link rel="import" href="../bower_components/polymerfire/firebase-auth.html">
-<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
-<link rel="import" href="../bower_components/polymerfire/firebase-query.html">
-<link rel="import" href="../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
 
 <dom-module id="panier-data">
 
@@ -24,13 +21,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
 <!-- FIREBASE-APP -->
-    <firebase-app auth-domain="project-248641088282056501.firebaseapp.com"
+    <firebase-app
+      name="firecatalogue"
+      auth-domain="project-248641088282056501.firebaseapp.com"
       database-url="https://project-248641088282056501.firebaseio.com"
       api-key="AIzaSyDbV6U85Y49itSQtJxM5GcqcEzKkm25DgY">
     </firebase-app>
 
 <!-- FIREBASE-AUTH -->
     <firebase-auth id="authenticate"
+      app-name="firecatalogue"
       user="{{userauth}}"
       provider="google"
       on-error="_loginError"
@@ -40,17 +40,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <!-- FIREBASE-COLLECTION
 path="/panier/[[uid]]/items"
 -->
-    <firebase-query
-        id="query"
-        app-name="notes"
-        path="/panier/[[uid]]/items"
-        data="{{panier}}">
+    <firebase-query id="fbquery"
+      app-name="firecatalogue"
+      path="/panier/[[userauth.uid]]/items"
+      data="{{panier}}">
     </firebase-query>
 
 <!-- FIREBASE-DOCUMENT -->
-    <firebase-document
-      id="firebaseDocument"
-      path="/panier/[[uid]]/items/[[itemid]]"
+    <firebase-document id="firebaseDocument"
+      app-name="firecatalogue"
+      path="/panier/[[userauth.uid]]/items/[[itemid]]"
       data="{{documentData}}">
     </firebase-document>
   </template>
@@ -125,7 +124,7 @@ path="/panier/[[uid]]/items"
       },
       _userSignedInChanged: function(userSignedIn){
         if (userSignedIn) {
-          alert('user signed in!');
+          //alert('user signed in!');
 
         }
         else {
@@ -162,6 +161,7 @@ path="/panier/[[uid]]/items"
        */
       setItem: function(detail) {
         this.itemid = detail.code;
+        console.log('detail: ', detail);
         //delete items with no quantity
         if (detail.quantite <1) {
           detail = null;
