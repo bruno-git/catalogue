@@ -10,7 +10,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+
 
 <dom-module id="page-accueil2">
 
@@ -107,17 +111,40 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--layout-vertical);
         @apply(--layout-center);
       }
+      #menu {
+        background-color: rgb(146, 179, 217);
+        background-image: linear-gradient(to top, rgb(204, 228, 255), 70%, white);
+        border-style: solid;
+        border-color: rgb(180, 211, 246);
+        border-width: thin;
+        border-radius: 2px;
+      }
     </style>
     <app-drawer-layout>
       <app-drawer align="end" opened>
         <div class="drawer-droite">
           <div>
-          <iron-image style="width:40px; height:40px;border-radius:100%;z-index:25;"
-            sizing="contain"
-            src="[[userauth.photoURL]]"
-            on-click="_logout">
-          </iron-image>
-        </div>
+            <div hidden="[[userauth]]">
+              <iron-icon icon="account-circle" style="width:40px;height:40px;"></iron-icon>
+            </div>
+            <div hidden="[[!userauth]]">
+              <iron-image style="width:40px; height:40px;border-radius:100%;z-index:25;"
+                sizing="contain"
+                src="[[userauth.photoURL]]"
+                on-click="_openMenu">
+              </iron-image>
+            </div>
+            <iron-dropdown id="menu"
+              no-overlap
+              horizontal-align="right">
+              <div class="dropdown-content">
+                <a href="/profil" zindex="-1">
+                  <paper-button>Mon profil</paper-button>
+                </a>
+                <paper-button on-click="_logout">Déconnexion</paper-button>
+              </div>
+            </iron-dropdown>
+          </div>
           <paper-button on-click="_connexion">Connectez-vous!</paper-button>
           <div>Zone clients</div>
           <a href="/profil" tabindex="-1">
@@ -160,6 +187,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: Object,
           value: null
         }
+      },
+      _openMenu: function(){
+        this.$.menu.open();
       },
       _logout: function() {
         this.fire('app-logout');

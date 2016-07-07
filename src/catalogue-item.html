@@ -50,21 +50,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .expand {
         @apply(--layout-flex);
       }
-      .remover {
-
+      .rouge {
+        color: rgb(142, 2, 2);
+        font-weight: bold;
+      }
+      .itemchoisi {
+        background-color: rgb(146, 179, 217);
+        background-image: linear-gradient(to top, rgb(204, 228, 255), 70%, white);
+        border-style: solid;
+        border-color: rgb(180, 211, 246);
+        border-width: thin;
+        border-radius: 2px;
       }
     </style>
-<!--
-    <div class="card">
-      <div class="circle">[[item.prix]]</div>
-      <h1>[[item.nom]]</h1>
-      <div>format: [[item.format]]</div>
-      <div>prix: [[item.prix]]$</div>
-      <div>code: [[item.code]]</div>
-      <paper-input id="quantite" label="Quantité" type="number" disabled$=[[!userlogged]] value="[[item.quantite]]"></paper-input>
-      <paper-button on-click="_setItem">Ajout - Firebase</paper-button>
-    </div>
--->
     <paper-material id="macarte" class="carte">
       <div class="expand">[[item.nom]]</div>
       <paper-input id="quantite"
@@ -77,7 +75,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div class="expand">prix: [[item.prix]]$</div>
       <div>code: [[item.code]]</div>
       <div hidden$=[[!remover]]>
-        <paper-button on-click="_removeItem">x</paper-button>
+        <paper-button on-click="_removeItem" class="rouge">x</paper-button>
       </div>
     </paper-material>
   </template>
@@ -102,13 +100,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           value: false
         }
       },
+      observers: [
+        '_observeQuantite(item.quantite)'
+      ],
       ready: function() {
         this._validateQuantite();
+      },
+      _observeQuantite: function(qteNew, qteOld) {
+        console.log('nouvelle quantite: ', qteNew, ' vieille: ', qteOld);
       },
       _validateQuantite: function() {
         //this.$.macarte.style.background = "url('../../images/poulet.jpg')";
         if (this.item.quantite > 0) {
-          this.$.macarte.style.backgroundColor = 'yellow';
+          this.$.macarte.classList.add('itemchoisi');
         }
       },
       _inputChanged: function(){
