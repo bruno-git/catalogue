@@ -146,7 +146,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <!-- APP-DRAWER-LAYOUT -->
     <app-drawer-layout>
       <app-drawer>
-        <a href="/accueil2">
+        <a href="/accueil">
           <app-toolbar id="toolbar-epicier">
 
             <iron-image src="../../images/epicier.png"></iron-image>
@@ -159,23 +159,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </div>
 
 <!-- CATEGORIES DE LA ZONE -->
-<!--
-        <iron-selector id="categorieSelector" selected="{{selectCategorie}}"
-        attr-for-selected="name" class="drawer-list" role="navigation"
-        fallback-selection="[[routeData.zone]]">
-
-          <a name$="[[routeData.zone]]" href$="/catalogue/[[routeData.zone]]/">
-            <div class="zone-en-tete">
-              <div title>[[routeData.zone]]</div>
-            </div>
-          </a>
-
-          <template id="listeCategorie" is="dom-repeat" items="[[catalogue.categories]]" filter="_filterZone">
-            <a name="[[item.titre]]" href$="[[_getItemHref(item.nom)]]">[[item.titre]]</a>
-          </template>
-          <a name="aide" href="/catalogue/congelateur/aide">Aide</a>
-        </iron-selector>
--->
 <!-- OH YEAH BABY! BABY! -->
         <paper-menu attr-for-item-title="label">
           <template is="dom-repeat" items="[[menuzones.zones]]" as="zone">

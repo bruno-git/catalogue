@@ -10,7 +10,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+
 
 <dom-module id="page-accueil">
 
@@ -19,14 +23,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
       :host {
         display: block;
-
-        /*background-image: url(//app-layout-assets.appspot.com/assets/bg1.jpg);*/
+        /*
         background-image: url('https://source.unsplash.com/category/nature/800x600');
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
         height: 100vh;
         overflow-y: auto;
+        */
       }
       .card {
         box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
@@ -58,7 +62,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: #fff;
       }
       .principal {
-        @apply(--layout-horizontal);
+        height: 100vh;
+        @apply(--layout-vertical);
+        @apply(--layout-around-justified);
+        @apply(--layout-center);
       }
       .gauche {
         overflow-y: auto;
@@ -89,65 +96,84 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         text-decoration: none;
         color: white;
       }
+      paper-button {
+        color: black;
+      }
+      .bloc {
+        /*margin-top: 10px;*/
+      }
+      .image-principale {
+        background-color: black;
+        height: 400px;
+        width: 800px;
+      }
+      .drawer-droite {
+        @apply(--layout-vertical);
+        @apply(--layout-center);
+      }
+      #menu {
+        background-color: rgb(146, 179, 217);
+        background-image: linear-gradient(to top, rgb(204, 228, 255), 70%, white);
+        border-style: solid;
+        border-color: rgb(180, 211, 246);
+        border-width: thin;
+        border-radius: 2px;
+      }
     </style>
-    <app-header-layout>
-      <app-header reveals>
-        <app-toolbar>
-          <iron-image src="../../images/epicier_blanc.png"></iron-image>
-          <div title>L'Épicier V2</div>
-          <iron-image style="width:40px; height:40px;border-radius:100%" sizing="contain"
-                      src="[[userauth.photoURL]]"
-                      on-click="_logout"></iron-image>
-          <a name="panier2" href="/panier" tabindex="-1">
-            <paper-icon-button icon="shopping-cart"></paper-icon-button>
+    <app-drawer-layout>
+      <app-drawer align="end" opened>
+        <div class="drawer-droite">
+          <div>
+            <div hidden="[[userauth]]">
+              <iron-icon icon="account-circle" style="width:40px;height:40px;"></iron-icon>
+            </div>
+            <div hidden="[[!userauth]]">
+              <iron-image style="width:40px; height:40px;border-radius:100%;z-index:25;"
+                sizing="contain"
+                src="[[userauth.photoURL]]"
+                on-click="_openMenu">
+              </iron-image>
+            </div>
+            <iron-dropdown id="menu"
+              no-overlap
+              horizontal-align="right">
+              <div class="dropdown-content">
+                <a href="/profil" zindex="-1">
+                  <paper-button>Mon profil</paper-button>
+                </a>
+                <paper-button on-click="_logout">Déconnexion</paper-button>
+              </div>
+            </iron-dropdown>
+          </div>
+          <paper-button on-click="_connexion">Connectez-vous!</paper-button>
+          <div>Zone clients</div>
+          <a href="/profil" tabindex="-1">
+            <paper-button>Mon profil</paper-button>
           </a>
-        </app-toolbar>
-      </app-header>
-
-<!-- LOGIN STATE TOOLBAR -->
-      <template is="dom-if" if="[[!userauth]]">
-        <app-toolbar style="background-color:yellow; color: black;">
-          <paper-button on-click="_connexion">Connectez-vous!<paper-button>
-        </app-toolbar>
-      </template>
-
-      <div class="principal">
-  <!-- MENU GAUCHE -->
-  <!-- TODO lien congelateur, garde-manger et aide -->
-        <div class="gauche">
-          <div class="carte-menu">
-            <a name="categories2" href="/categories2/">Ouvrir les categories</a>
-            <div class="detail">Présentement 3 catégories</div>
-          </div>
-          <div class="carte-menu">
-            <a name="congelateur" href="/catalogue/congelateur/">Choisir les aliments de mon congélateur</a>
-            <div class="detail">Viande surgelée AAA, poissons, légumes</div>
-          </div>
-          <div class="carte-menu">
-            <a name="catalogue" href="/catalogue/gardemanger/">Choisir les aliments de mon garde-manger</a>
-            <div class="detail">Conserves, produits pour déjeûner, épices...</div>
-          </div>
-          <div class="carte-menu">
-            <a name="catalogue" href="/catalogue/gardemanger/">Choisir mes produits ménagers</a>
-            <div class="detail">Produits de nettoyage et autres</div>
-          </div>
-          <div class="carte-menu">
-            Aide
-          </div>
+          <a href="/panier" tabindex="-1">
+            <paper-button>Mon panier</paper-button>
+          </a>
+          <paper-button>Mes Livraisons</paper-button>
+          <paper-button>Échanger des produits</paper-button>
         </div>
-  <!-- SECTION CONTENU PRINCIPAL -->
-  <!-- TODO remplacer ces cartes par le contenu contextuel -->
-        <div class="droite">
-          <div class="card">
-            <div class="circle">1</div>
-            <h1>Bienvenue chez L'Épicier</h1>
-            <p>Vidéo introduction app et/ou service</p>
-            <p>Visuel sur le résultat d'une commande de 2-3-4 personnes (qté, prix, qualité)</p>
-            <p>Comment utiliser cette application?</p>
-          </div>
+      </app-drawer>
+      <div class="principal">
+        <div class="bloc">
+          <iron-image src="../../images/epicier-original.png"></iron-image>
+        </div>
+        <div class="bloc">
+          One liner de fou
+        </div>
+        <div class="bloc">
+          <iron-image src="https://source.unsplash.com/category/food/800x400" class="image-principale" preload fade></iron-image>
+        </div>
+        <div class="bloc">
+          <a href="/catalogue" tabindex="-1">
+            <paper-button raised>Magasiner</paper-button>
+          </a>
         </div>
       </div>
-    </app-header-layout>
+    </app-drawer-layout>
   </template>
 
   <script>
@@ -161,6 +187,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           type: Object,
           value: null
         }
+      },
+      _openMenu: function(){
+        this.$.menu.open();
       },
       _logout: function() {
         this.fire('app-logout');

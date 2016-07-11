@@ -91,12 +91,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <!-- IRON-PAGES -->
     <iron-pages role="main" selected="[[page]]" attr-for-selected="name">
+      <page-accueil name="accueil-OLD" userauth="[[userauth]]"></page-accueil>
       <page-accueil name="accueil" userauth="[[userauth]]"></page-accueil>
-      <page-accueil2 name="accueil2" userauth="[[userauth]]"></page-accueil2>
+
       <page-catalogue name="catalogue" route="{{subroute}}" panier="[[panier]]" userlogged="[[userlogged]]"></page-catalogue>
-      <page-panier name="panier" userauth="[[userauth]]" panier=[[panier]]></page-panier>
+
+      <page-panier name="panier" route="{{subroute}" userauth="[[userauth]]" panier=[[panier]]></page-panier>
+      <!--<page-panier name="panier" userauth="[[userauth]]" panier=[[panier]]></page-panier>-->
+      <!-- PAGE CATEGORIES RETIREES
       <page-categories name="categories" userauth="[[userauth]]"></page-categories>
       <page-categories2 name="categories2" userauth="[[userauth]]"></page-categories2>
+    -->
       <page-profil name="profil" userauth="[[userauth]]"></page-profil>
     </iron-pages>
 
@@ -112,7 +117,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         page: {
           type: String,
-          value: 'accueil2',
+          value: 'accueil',
           reflectToAttribute: true,
           observer: '_pageChanged'
         },
@@ -159,7 +164,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.$.monPanierData.setItem(detail);
       },
       _routePageChanged: function(page) {
-        this.page = page || 'accueil2';
+        this.page = page || 'accueil';
       },
       _pageChanged: function(page) {
         // load page import on demand.
