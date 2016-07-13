@@ -11,7 +11,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="catalogue-item.html">
 
-<dom-module id="page-panier">
+<dom-module id="vue-panier">
 
   <template>
 
@@ -48,37 +48,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: #fff;
       }
     </style>
-    <app-header-layout>
-      <app-header reveals>
-        <app-toolbar>
-          <iron-image src="../../images/epicier_blanc.png"></iron-image>
-          <div title>L'Épicier V2</div>
-          <iron-image style="width:40px; height:40px;border-radius:100%" sizing="contain"
-                      src="[[userauth.photoURL]]"
-                      on-click="_logout"></iron-image>
-          <a name="panier" href="/panier">
-            <paper-icon-button icon="shopping-cart"></paper-icon-button>
-          </a>
-        </app-toolbar>
-      </app-header>
+
 <!-- MESSAGE SI PANIER VIDE -->
 
-      <p hidden="[[_panierVide(panier.length)]]">
-        Votre panier est vide.
-      </p>
+    <p hidden="[[_panierVide(panier.length)]]">
+      Votre panier est vide.
+    </p>
 <!-- LISTE CONTENU PANIER -->
-      <template is="dom-repeat" items="[[panier]]">
-        <catalogue-item item="[[item]]" userlogged remover></catalogue-item>
-      </template>
+    <template is="dom-repeat" items="[[panier]]">
+      <catalogue-item item="[[item]]" userlogged remover></catalogue-item>
+    </template>
 
-    </app-header-layout>
   </template>
 
   <script>
 
     Polymer({
 
-      is: 'page-panier',
+      is: 'vue-panier',
 
       properties: {
         userauth: {
@@ -86,8 +73,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           value: null
         },
         panier: {
-          type: Array,
-          value: []
+          type: Object,
+          value: null
         }
       },
       _panierVide: function(nbItems){

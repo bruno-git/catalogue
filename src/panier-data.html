@@ -73,10 +73,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           notify: true,
           observer: '_panierChanged'
         },
-        panierRef: {
-          type: Object,
-          value: null
-        },
         userauth: {
           type: Object,
           value: null,
@@ -103,7 +99,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       },
       _panierChanged: function(newValue) {
-        console.log('panier-data panier changed: ', newValue);
+        console.log('panier changed: ', newValue);
         console.log('uid: ', this.uid);
       },
       _userauthChanged: function(newUserAuth) {
@@ -113,8 +109,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.userlogged = true;
           console.log('this.userauth: ', this.userauth);
           this.uid = this.userauth.uid;
-          //this.location = ['https://project-248641088282056501.firebaseio.com/panier', this.userauth.uid, 'items'].join('/');
-          //this.panierRef = new Firebase(this.location);
         }
         else {
           //alert('new userauth is null');
@@ -143,15 +137,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       _loginCompleted: function(e){
         this.userlogged = true;
-
-        //this.location = ['https://project-248641088282056501.firebaseio.com/panier', e.detail.user.uid, 'items'].join('/');
-        //this.location = ['https://epicerieenligne.firebaseio.com/panier', e.detail.user.uid, 'items'].join('/');
-        //this.panierRef = new Firebase(this.location);
       },
       _logoutCompleted: function(e) {
         this.userlogged = false;
         this.location = null;
-        this.panierRef = null;
       },
       /**
        * ajoute / met a jour l'item sélectionné.
@@ -159,7 +148,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        */
       setItem: function(detail) {
         this.itemid = detail.code;
-        console.log('detail: ', detail);
+        console.log('setItem detail: ');
+        console.log('documentData: ', this.documentData);
+        console.log('user id: ', this.uid);
+        console.log('item id: ', this.itemid);
+        console.log('key: ', this.$key);
         //delete items with no quantity
         if (detail.quantite <1) {
           detail = null;

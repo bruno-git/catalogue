@@ -92,11 +92,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <!-- IRON-PAGES -->
     <iron-pages role="main" selected="[[page]]" attr-for-selected="name">
       <page-accueil name="accueil" userauth="[[userauth]]"></page-accueil>
-      <page-catalogue name="catalogue" route="{{subroute}}" panier="[[panier]]" userlogged="[[userlogged]]"></page-catalogue>
       <page-profil name="profil" userauth="[[userauth]]"></page-profil>
 
-      <page-panier name="panier" route="{{subroute}" userauth="[[userauth]]" panier=[[panier]]></page-panier>
+      <page-catalogue name="catalogue" route="{{subroute}}" panier="[[panier]]" userlogged="[[userlogged]]" userauth="[[userauth]]"></page-catalogue>
+      <page-commande  name="commande"  route="{{subroute}}" panier="[[panier]]" userlogged="[[userlogged]]" userauth="[[userauth]]"></page-commande>
       <!--<page-panier name="panier" userauth="[[userauth]]" panier=[[panier]]></page-panier>-->
+
     </iron-pages>
 
   </template>
@@ -158,10 +159,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.$.monPanierData.setItem(detail);
       },
       _routePageChanged: function(page) {
-        this.page = page || 'accueil2';
+        this.page = page || 'accueil';
       },
       _pageChanged: function(page) {
         // load page import on demand.
+        console.log('app-shell new page: ', page);
         this.importHref(
           this.resolveUrl('page-' + page + '.html'), null, null, true);
       }

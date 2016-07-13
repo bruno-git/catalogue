@@ -18,7 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-menu/paper-submenu.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="catalogue-item.html">
-<dom-module id="page-catalogue">
+<dom-module id="page-commande">
 
   <template>
 
@@ -113,35 +113,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <!-- APP-ROUTE -->
     <app-route
         route="{{route}}"
-        pattern="/:zone"
+        pattern="/:etape"
         data="{{routeData}}"
         tail="{{subroute}}">
     </app-route>
-    <app-route
-        route="{{subroute}}"
-        pattern="/:categorie"
-        data="{{subrouteData}}">
-    </app-route>
-
-<!-- IRON-AJAX - zone selectionnée -->
-    <iron-ajax
-      auto
-      url="[[_computeURL(routeData.zone)]]"
-      handle-as="json"
-      loading="{{loading}}"
-      last-response="{{catalogue}}">
-    </iron-ajax>
-<!-- IRON-AJAX - catégories dans le drawer -->
-    <iron-ajax
-      auto
-      url="/data/catalogue-menu.json"
-      handle-as="json"
-      loading="{{loadingcategories}}"
-      last-response="{{menuzones}}">
-    </iron-ajax>
 
 <!-- APP-SCROLLPOS-CONTROL-->
-    <app-scrollpos-control selected="{{subrouteData.categorie}}"></app-scrollpos-control>
+    <app-scrollpos-control selected="{{routeData.etape}}"></app-scrollpos-control>
 
 <!-- APP-DRAWER-LAYOUT -->
     <app-drawer-layout>
@@ -150,30 +128,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <app-toolbar id="toolbar-epicier">
 
             <iron-image src="../../images/epicier.png"></iron-image>
-            <div title>Catalogue</div>
+            <div title>Ma Commande</div>
           </app-toolbar>
         </a>
         <div class="zone-en-tete">
-          <div title>[[routeData.zone]]</div>
+          <div title>[[routeData.etape]]</div>
           <iron-icon icon="search"></iron-icon>
         </div>
 
 <!-- CATEGORIES DE LA ZONE -->
 <!-- OH YEAH BABY! BABY! -->
         <paper-menu attr-for-item-title="label">
-          <template is="dom-repeat" items="[[menuzones.zones]]" as="zone">
-            <paper-submenu label="[[zone.nom]]">
-              <paper-item class="menu-trigger zone-en-tete">[[zone.titre]]</paper-item>
-              <paper-menu class="menu-content">
-                <template is="dom-repeat" items="[[zone.categories]]" as="cat">
-                  <a name="[[cat.titre]]" href$="/catalogue/[[zone.nom]]/[[cat.nom]]" tab-index="-1">
-                    <paper-item>[[cat.titre]]</paper-item>
-                  </a>
-                </template>
-              </paper-menu>
-            </paper-submenu>
-          </template>
-          <a name="aide" href="/catalogue/aide">
+          <a name="panier" href="/commande/panier" tab-index="-1">
+            <paper-item>1- Mon panier</paper-item>
+          </a>
+          <a name="adresse" href="/commande/adresse" tab-index="-1">
+            <paper-item>2- Mon adresse</paper-item>
+          </a>
+          <paper-item>3- Etape3</paper-item>
+          <paper-item>4- Etape4</paper-item>
+          <a name="aide" href="/commande/aide">
             <paper-item>Aide (accoter en bas)</paper-item>
           </a>
         </paper-menu>
@@ -189,18 +163,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
             <paper-icon-button icon="menu"></paper-icon-button>
             <!-- USER IMAGE -->
-            <iron-image style="width:40px; height:40px;border-radius:100%;z-index:25;" sizing="contain"
-              src="[[userauth.photoURL]]"
-              on-click="_logout">
-            </iron-image>
-            <a name="panier" href="/commande/panier" tabindex="-1">
+            <template is="dom-if" if="[[userlogged]]">
+              <iron-image style="width:40px; height:40px;border-radius:100%;z-index:25;" sizing="contain"
+                src="[[userauth.photoURL]]"
+                on-click="_logout">
+              </iron-image>
+            </template
+            <a name="panier" href="/panier" tabindex="-1">
               <paper-icon-button icon="shopping-cart"></paper-icon-button>
             </a>
-            <h4 condensed-title>[[selectCategorie]]</h4>
+            <h4 condensed-title>[[routeData.etape]]</h4>
             <paper-icon-button icon="shopping-cart"></paper-icon-button>
           </app-toolbar>
           <app-toolbar class="tall">
-            <h1 title>[[selectCategorie]]</h1>
+            <h1 title>[[routeData.etape]]</h1>
           </app-toolbar>
         </app-header>
 <!-- SECTION LOGIN -->
@@ -212,23 +188,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <!-- CONTENU PRINCIPAL -->
 <!-- INFORMATION SUR LA ZONE -->
-        <template is="dom-if" if="[[!subrouteData.categorie]]">
+        <template is="dom-if" if="[[!routeData.etape]]">
           <div class="card">
-            contenu de la carte d'information contextuelle pour la zone [[routeData.zone]]
-            tous nos produits sont beaux bons pas cher
+            contenu de la carte d'information contextuelle pour poursuivre la commande
           </div>
         </template>
-<!-- AFFICHE L'AIDE -->
-        <template is="dom-if" if="[[_ifCategorieAide(subrouteData.categorie)]]">
-          aide
-          créer un élément pour afficher l'aide contextuelle de cette page
-        </template>
 
-<!-- LISTE ITEMS DE LA CATEGORIE -->
-        <template id="listeItems" is="dom-repeat" items="[[catalogue.items]]" filter="_computeFilter">
-          <catalogue-item item="[[item]]" userlogged=[[userlogged]]></catalogue-item>
-        </template>
-
+<!-- IRON-PAGES -->
+        <iron-pages selected="[[etape]]" attr-for-selected="name">
+          <vue-panier name="panier" userauth="[[userauth]]" panier="[[panier]]"></vue-panier>
+          <vue-adresse name="adresse"></vue-adresse>
+        </iron-pages>
       </app-header-layout>
     </app-drawer-layout>
   </template>
@@ -237,74 +207,47 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     Polymer({
 
-      is: 'page-catalogue',
+      is: 'page-commande',
 
       properties : {
-        catalogue: {
-          type: Object,
-          value: null
+        etape: {
+          type: String,
+          value: 'panier',
+          reflectToAttribute: true,
+          observer: '_etapeChanged'
         },
         route: {
           type: Object,
-          value: null,
-          observer: '_routeChanged'
+          value: null
         },
         routeData: {
           type: Object,
           value: null
         },
-        subroute: {
-          type: Object,
-          value: null
-        },
-        subrouteData: {
-          type: Object,
-          value: null
-        },
-        selectCategorie:{
-          type: String,
-          value: null
-        },
         panier: {
           type: Object,
-          value: null
+          value: null,
+          observer: '_panierChanged'
         },
         userlogged: {
           type: Boolean,
           value: false
-        },
-        testselectvalue: {
-          type: Number
         }
       },
       observers: [
-        '_panierCatalogueUpdated(panier, catalogue)'
+        '_routePageChanged(routeData.etape)'
       ],
-      ready: function() {
-        //selection de la valeur par defaut dans l'ancien menu
-        /*if (!this.$.categorieSelector.selected){
-          this.$.categorieSelector.selected = 1;
-        }*/
+      _routePageChanged: function(etape) {
+        this.etape = etape || 'panier';
       },
-      _panierCatalogueUpdated: function(panier, catalogue){
-        console.log('PANIER ET CATALOGUE UPDATED');
-        console.log('panier: ', panier);
-        console.log('catalogue: ', catalogue);
-        //s'il y a des items dans le panier, consolide l'information avec le catalogue
-        //if (panier.length > 0 && catalogue) {
-        if (panier && catalogue) {
-          //pour chaque item dans le panier, trouver et mettre a jour sa quantite dans le catalogue
-          for (var itemPanier of panier){
-            for (var itemCatalogue of catalogue.items){
-              if (itemPanier.code === itemCatalogue.code){
-                itemCatalogue.quantite = itemPanier.quantite;
-              }
-            }
-          }
-        }
+      _panierChanged: function(newPanier){
+        console.log('panier changed: ', newPanier);
       },
-      _ifCategorieAide: function(categorie) {
-        return categorie === 'aide' ? true: false;
+      _etapeChanged: function(etape){
+        // load page import on demand.
+        console.log('page-commande new page: ', etape);
+        this.importHref(
+          this.resolveUrl('vue-' + etape + '.html'), null, null, true);
       },
       _toggle: function() {
         this.$.collapse.toggle();
@@ -312,45 +255,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _logout: function() {
         this.fire('app-logout');
       },
-      _routeChanged: function(newValue){
-        if (this.subrouteData) {
-          this.$.listeItems.render();
-        }
-      },
       _connexion: function() {
         this.fire('app-login');
-      },
-      _filterZone: function(item) {
-        if (this.routeData) {
-          return item.zone == this.routeData.zone;
-        }
-      },
-      _computeFilter: function(item) {
-        if (this.subrouteData) {
-          return item.categorie == this.subrouteData.categorie;
-        }
-        else{
-          return null;
-        }
-      },
-      _getItemHref: function(nomItem) {
-        // By returning null when `itemId` is undefined, the href attribute won't be set and
-        // the link will be disabled.
-        //alert('item href');
-        return nomItem ? [this.route.prefix, this.routeData.zone, nomItem].join('/') : null;
-      },
-      _getZoneHref: function(zone) {
-        alert('zone href: ', zone);
-
-        return this.routeData ? [this.route.prefix, this.routeData.zone].join('/'): null;
-      },
-      _computeURL: function(zone) {
-//TODO cette méthode est appelée trop souvent. Trouver pourquoi et corriger...
-        if (zone) {
-          var computedURL = '/data/catalogue-' + zone + '.json';
-          //alert('var: ' + asdf);
-          return computedURL;
-        }
       }
     });
 
