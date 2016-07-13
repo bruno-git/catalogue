@@ -168,7 +168,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 src="[[userauth.photoURL]]"
                 on-click="_logout">
               </iron-image>
-            </template
+            </template>
             <a name="panier" href="/panier" tabindex="-1">
               <paper-icon-button icon="shopping-cart"></paper-icon-button>
             </a>
@@ -245,7 +245,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       _etapeChanged: function(etape){
         // load page import on demand.
-        console.log('page-commande new page: ', etape);
+        console.log('page-commande etape changed: ', etape);
         this.importHref(
           this.resolveUrl('vue-' + etape + '.html'), null, null, true);
       },
