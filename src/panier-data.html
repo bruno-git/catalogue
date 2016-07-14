@@ -22,7 +22,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 <!-- FIREBASE-APP -->
     <firebase-app
-
       auth-domain="project-248641088282056501.firebaseapp.com"
       database-url="https://project-248641088282056501.firebaseio.com"
       api-key="AIzaSyDbV6U85Y49itSQtJxM5GcqcEzKkm25DgY">
@@ -30,7 +29,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <!-- FIREBASE-AUTH -->
     <firebase-auth id="authenticate"
-
       user="{{userauth}}"
       provider="google"
       on-error="_loginError"
@@ -38,16 +36,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </firebase-auth>
 
 <!-- FIREBASE-QUERY -->
+<!-- path="/usagers/[[userauth.uid]]/commandes/active/items" -->
     <firebase-query id="fbquery"
-
-      path="/usagers/[[userauth.uid]]/commandes/active/items"
+      path="/commandes/[[userauth.uid]]/[[cleCommande]]/items"
       data="{{panier}}">
     </firebase-query>
 
 <!-- FIREBASE-DOCUMENT -->
+<!-- path="/usagers/[[userauth.uid]]/commandes/active/items/[[itemid]]" -->
     <firebase-document id="firebaseDocument"
-
-      path="/usagers/[[userauth.uid]]/commandes/active/items/[[itemid]]"
+      path="/commandes/[[userauth.uid]]/[[cleCommande]]/items/[[itemid]]"
       data="{{documentData}}">
     </firebase-document>
 
@@ -97,6 +95,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         itemid: {
           type: String,
           value: null
+        },
+        cleCommande:{
+          type: String,
+          value: null
         }
       },
       _panierChanged: function(newValue) {
@@ -105,28 +107,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       _connexionNouvelUsager: function(){
         alert('nouvel usager ');
-        //ajouter l'usager dans la bd
+        //1- crée la clé pour la commande de l'usager
+        var pathCommande = '/commandes/' + this.userauth.uid;
+        console.log(pathCommande);
+        //génère la clé...
+        var cleNouvelleCommande = firebase.database().ref().child(pathCommande).push().key;
+        this.cleCommande = cleNouvelleCommande;
+        //2- ajoute l'usager dans la bd avec sa clé de commande active
+        var updates = {};
+        updates['/usagers/' + this.userauth.uid] = cleNouvelleCommande;
+        firebase.database().ref().update(updates);
+
         //rediriger vers la page de profil
         this.fire('nouvel-usager');
       },
       //cette méthode est requise pcq lorsque l'évènement signin est déclenché
       //userauth n'est pas encore initialisé
       _userauthChanged: function(newUserAuth) {
-        var functionvar = 'test';
-        console.log('testvar: ', this.testvar);
-        console.log('this: ', this);
-        console.log('1: ', Polymer.dom(parent));
         //alert(this.domHost.testvar);
         if (newUserAuth) {
           this.userlogged = true;
           this.uid = this.userauth.uid;
 
-          var userpath = '/existant/' + [[this.userauth.uid]];
+          var userpath = '/usagers/' + [[this.userauth.uid]];
           var userRef = firebase.database().ref().child(userpath);
           //version avec arrow function permet de garder le contexte the this
           userRef.once('value', snap => {
-            if (snap.exists()) {
+            if (!snap.exists()) {
               this._connexionNouvelUsager();
+            }
+            else {
+              this.cleCommande = snap.val();
             }
           });
         }
