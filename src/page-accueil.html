@@ -62,7 +62,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: #fff;
       }
       .principal {
-        height: 100vh;
+        height: calc(100vh - 100px);
         @apply(--layout-vertical);
         @apply(--layout-around-justified);
         @apply(--layout-center);
@@ -138,7 +138,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </iron-image>
           <iron-dropdown id="menu"
             no-overlap
-            horizontal-align="left">
+            horizontal-align="right">
             <div class="dropdown-content">
               <a href="/profil" zindex="-1">
                 <paper-button>Mon profil</paper-button>

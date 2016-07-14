@@ -135,7 +135,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       listeners: {
         'set-cart-item': '_onSetCartItem',
         'app-login': '_openLoginDialog',
-        'app-logout': '_logout'
+        'app-logout': '_logout',
+        'nouvel-usager': '_onNouvelUsager'
+      },
+      //déclenché lors de la connextion d'un nouvel usager
+      _onNouvelUsager: function() {
+        this.set('route.path', '/profil');
       },
       _logout: function(){
         this.$.monPanierData.logout();

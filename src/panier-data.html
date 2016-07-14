@@ -22,7 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
 <!-- FIREBASE-APP -->
     <firebase-app
-      name="firecatalogue"
+
       auth-domain="project-248641088282056501.firebaseapp.com"
       database-url="https://project-248641088282056501.firebaseio.com"
       api-key="AIzaSyDbV6U85Y49itSQtJxM5GcqcEzKkm25DgY">
@@ -30,7 +30,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <!-- FIREBASE-AUTH -->
     <firebase-auth id="authenticate"
-      app-name="firecatalogue"
+
       user="{{userauth}}"
       provider="google"
       on-error="_loginError"
@@ -39,17 +39,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <!-- FIREBASE-QUERY -->
     <firebase-query id="fbquery"
-      app-name="firecatalogue"
+
       path="/usagers/[[userauth.uid]]/commandes/active/items"
       data="{{panier}}">
     </firebase-query>
 
 <!-- FIREBASE-DOCUMENT -->
     <firebase-document id="firebaseDocument"
-      app-name="firecatalogue"
+
       path="/usagers/[[userauth.uid]]/commandes/active/items/[[itemid]]"
       data="{{documentData}}">
     </firebase-document>
+
   </template>
 
   <script>
@@ -102,25 +103,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         console.log('panier changed: ', newValue);
         console.log('uid: ', this.uid);
       },
+      _connexionNouvelUsager: function(){
+        alert('nouvel usager ');
+        //ajouter l'usager dans la bd
+        //rediriger vers la page de profil
+        this.fire('nouvel-usager');
+      },
+      //cette méthode est requise pcq lorsque l'évènement signin est déclenché
+      //userauth n'est pas encore initialisé
       _userauthChanged: function(newUserAuth) {
+        var functionvar = 'test';
+        console.log('testvar: ', this.testvar);
+        console.log('this: ', this);
+        console.log('1: ', Polymer.dom(parent));
+        //alert(this.domHost.testvar);
         if (newUserAuth) {
-          //alert('new userauth not null');
-          //from _loginCompleted
           this.userlogged = true;
-          console.log('this.userauth: ', this.userauth);
           this.uid = this.userauth.uid;
-        }
-        else {
-          //alert('new userauth is null');
+
+          var userpath = '/existant/' + [[this.userauth.uid]];
+          var userRef = firebase.database().ref().child(userpath);
+          //version avec arrow function permet de garder le contexte the this
+          userRef.once('value', snap => {
+            if (snap.exists()) {
+              this._connexionNouvelUsager();
+            }
+          });
         }
       },
+      //méthode _userauthChanged utilisée en remplacement pcq userauth n'est pas
+      //initialisé lorsque l'évènement signin est déclenché :(
       _userSignedInChanged: function(userSignedIn){
         if (userSignedIn) {
-          //alert('user signed in!');
 
-        }
-        else {
-          //alert('user not signed in');
         }
       },
       logout: function(){
