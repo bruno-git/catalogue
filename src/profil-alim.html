@@ -1,0 +1,58 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+
+<dom-module id="profil-alim">
+
+  <template>
+
+    <style>
+      :host {
+        display: block;
+        background-color: yellow;
+      }
+    </style>
+    profil-alim ici...
+<!-- SECTION PROFIL -->
+    <paper-input label="Nombre de personnes" value="{{profilData.nbPersonnes}}" disabled$="[[!userauth]]"></paper-input>
+    <paper-input label="Budget" value="{{profilData.budget}}" disabled$="[[!userauth]]"></paper-input>
+    <paper-input label="Aimez-vous les mets préparés?" value="{{profilData.metsPrepares}}" disabled$="[[!userauth]]"></paper-input>
+    <paper-button on-click="test">test</paper-button>
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'profil-alim',
+
+      properties: {
+        profilData: {
+          type: Object,
+          value: null,
+          notify: true
+        },
+        userauth: {
+          type: Object,
+          value: null
+        }
+      },
+      test: function(){
+        console.log('userauth: ', this.userauth);
+        console.log('profilData: ', this.profilData);
+      }
+    });
+
+  </script>
+
+</dom-module>

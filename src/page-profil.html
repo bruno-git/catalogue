@@ -14,6 +14,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="profil-alim.html">
 
 <dom-module id="page-profil">
 
@@ -27,12 +29,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background-color: var(--app-primary-color);
         color: #fff;
       }
+      paper-fab {
+        background-color: var(--app-primary-color);
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+      }
     </style>
 
 <!-- FIREBASE-DOCUMENT -->
     <firebase-document id="firebaseProfil"
-      app-name="firecatalogue"
-      path="/usagers/[[userauth.uid]]/profil"
+      path="/profil/[[userauth.uid]]/preferences"
       data="{{profilData}}">
     </firebase-document>
 
@@ -51,18 +58,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </app-header>
 
       <div>Page profil</div>
-
 <!-- MESSAGE SI NON CONNECTÉ -->
       <p hidden="[[userauth]]">
         Votre panier est vide.us devez être connecté pour modifier votre profil...[[profilData.length]]
       </p>
-<!-- SECTION PROFIL -->
-      <paper-input label="Nombre de personnes" value="{{profilData.nbPersonnes}}"></paper-input>
-      <paper-input label="Budget" value="{{profilData.budget}}"></paper-input>-
-      <paper-input label="Aimez-vous les mets préparés?" value="{{profilData.metsPrepares}}"></paper-input>
-      <paper-button on-click="test">test</paper-button>
-
+      <profil-alim profil-data="{{profilData}}" userauth="[[userauth]]"></profil-alim>
     </app-header-layout>
+    <a href="/catalogue">
+      <paper-fab icon="check"></paper-fab>
+    </a>
   </template>
 
   <script>
@@ -81,16 +85,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           value: null
         }
       },
-      test: function(){
-        console.log('userauth: ', this.userauth);
-        console.log('profilData: ', this.profilData);
-      },
       _logout: function() {
         this.fire('app-logout');
       },
       _connexion: function() {
         this.fire('app-login');
-      },
+      }
     });
 
   </script>

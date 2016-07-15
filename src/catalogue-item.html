@@ -68,7 +68,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <paper-input id="quantite"
                    label="Quantité"
                    type="number"
-                   disabled$=[[!userlogged]]
+                   disabled$="[[!userlogged]]"
                    value="{{item.quantite}}"
                    on-change="_inputChanged"></paper-input>
       <div class="expand">format: [[item.format]]</div>
