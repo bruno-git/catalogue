@@ -13,7 +13,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="profil-alim.html">
 
@@ -25,15 +30,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
       }
-      app-header {
-        background-color: var(--app-primary-color);
-        color: #fff;
-      }
       paper-fab {
         background-color: var(--app-primary-color);
         position: absolute;
         right: 20px;
         bottom: 20px;
+      }
+      .adroite {
+        @apply(--layout-horizontal);
+        @apply(--layout-end-justified);
+      }
+      app-header {
+        /*background-color: var(--app-primary-color);*/
+        color: #fff;
+      }
+      a {
+        text-decoration: none;
+        color: white;
+      }
+      #menu {
+        background-color: rgb(146, 179, 217);
+        background-image: linear-gradient(to top, rgb(204, 228, 255), 70%, white);
+        border-style: solid;
+        border-color: rgb(180, 211, 246);
+        border-width: thin;
+        border-radius: 2px;
+        color: black;
       }
     </style>
 
@@ -44,22 +66,40 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </firebase-document>
 
     <app-header-layout>
-      <app-header reveals>
-        <app-toolbar>
-          <iron-image src="../../images/epicier_blanc.png"></iron-image>
-          <div title>L'Épicier V2</div>
-          <iron-image style="width:40px; height:40px;border-radius:100%" sizing="contain"
-                      src="[[userauth.photoURL]]"
-                      on-click="_logout"></iron-image>
-          <a name="panier" href="/panier">
+      <app-header>
+        <app-toolbar class="adroite">
+          <div hidden$="[[userauth]]">
+            <paper-button on-click="_connexion">Connectez-vous!</paper-button>
+            <iron-icon icon="account-circle" style="width:40px;height:40px;"></iron-icon>
+          </div>
+          <div hidden$="[[!userauth]]">
+            <iron-image style="width:40px; height:40px;border-radius:100%;z-index:25;"
+              sizing="contain"
+              src="[[userauth.photoURL]]"
+              on-click="_openMenu">
+            </iron-image>
+            <iron-dropdown id="menu"
+              no-overlap
+              horizontal-align="right">
+              <div class="dropdown-content">
+                <a href="/profil" zindex="-1">
+                  <paper-button>Mon profil</paper-button>
+                </a>
+                <paper-button on-click="_logout">Déconnexion</paper-button>
+              </div>
+            </iron-dropdown>
+          </div>
+          <a name="panier" href="/commande/panier" tabindex="-1">
             <paper-icon-button icon="shopping-cart"></paper-icon-button>
           </a>
         </app-toolbar>
       </app-header>
-
-      <div>Page profil</div>
+      <div hidden$="[[!userauth]]" style="max-width:500px;">
+        Bonjour [[userauth.displayName]],<br>
+        Nous vous invitons à compléter votre profil alimentaire afin que nous puissions vous guider lors de vos achats.
+      </div>
 <!-- MESSAGE SI NON CONNECTÉ -->
-      <p hidden="[[userauth]]">
+      <p hidden$="[[userauth]]">
         Votre panier est vide.us devez être connecté pour modifier votre profil...[[profilData.length]]
       </p>
       <profil-alim profil-data="{{profilData}}" userauth="[[userauth]]"></profil-alim>
@@ -90,6 +130,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       _connexion: function() {
         this.fire('app-login');
+      },
+      _openMenu: function(){
+        this.$.menu.open();
       }
     });
 

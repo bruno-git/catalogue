@@ -19,14 +19,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
       :host {
         display: block;
-        background-color: yellow;
+      }
+      .paslarge {
+        width: 200px;
       }
     </style>
-    profil-alim ici...
+
 <!-- SECTION PROFIL -->
-    <paper-input label="Nombre de personnes" value="{{profilData.nbPersonnes}}" disabled$="[[!userauth]]"></paper-input>
-    <paper-input label="Budget" value="{{profilData.budget}}" disabled$="[[!userauth]]"></paper-input>
-    <paper-input label="Aimez-vous les mets préparés?" value="{{profilData.metsPrepares}}" disabled$="[[!userauth]]"></paper-input>
+    <paper-input label="Nombre de personnes"
+      class="paslarge"
+      type="number"
+      value="{{profilData.nbPersonnes}}"
+      disabled$="[[!userauth]]"></paper-input>
+    <paper-input label="Budget (approx)"
+      class="paslarge"
+      type="number"
+      value="{{profilData.budget}}"
+      disabled$="[[!userauth]]"></paper-input>
+    <paper-input label="Aimez-vous les mets préparés?"
+      value="{{profilData.metsPrepares}}"
+      disabled$="[[!userauth]]"></paper-input>
     <paper-button on-click="test">test</paper-button>
   </template>
 

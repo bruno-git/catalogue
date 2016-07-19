@@ -12,9 +12,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-image/iron-image.html">
 <link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
-
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 
 <dom-module id="page-accueil">
 
@@ -126,11 +128,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
     <app-header>
       <app-toolbar class="adroite">
-        <div hidden="[[userauth]]">
+        <div hidden$="[[userauth]]">
           <paper-button on-click="_connexion">Connectez-vous!</paper-button>
           <iron-icon icon="account-circle" style="width:40px;height:40px;"></iron-icon>
         </div>
-        <div hidden="[[!userauth]]">
+        <div hidden$="[[!userauth]]">
           <iron-image style="width:40px; height:40px;border-radius:100%;z-index:25;"
             sizing="contain"
             src="[[userauth.photoURL]]"

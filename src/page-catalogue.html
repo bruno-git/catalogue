@@ -148,9 +148,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <app-drawer>
         <a href="/accueil">
           <app-toolbar id="toolbar-epicier">
-
             <iron-image src="../../images/epicier.png"></iron-image>
-            <div title>Catalogue</div>
+            <div title>Epicier</div>
           </app-toolbar>
         </a>
         <div class="zone-en-tete">
@@ -196,11 +195,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <a name="panier" href="/commande/panier" tabindex="-1">
               <paper-icon-button icon="shopping-cart"></paper-icon-button>
             </a>
-            <h4 condensed-title>[[selectCategorie]]</h4>
+            <h4 condensed-title>[[routeData.zone]]</h4>
             <paper-icon-button icon="shopping-cart"></paper-icon-button>
           </app-toolbar>
           <app-toolbar class="tall">
-            <h1 title>[[selectCategorie]]</h1>
+            <h1 title>[[routeData.zone]]</h1>
           </app-toolbar>
         </app-header>
 <!-- SECTION LOGIN -->
@@ -259,10 +258,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         },
         subrouteData: {
           type: Object,
-          value: null
-        },
-        selectCategorie:{
-          type: String,
           value: null
         },
         panier: {
