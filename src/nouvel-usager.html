@@ -1,0 +1,75 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="profil-alim.html">
+
+<dom-module id="nouvel-usager">
+
+  <template>
+
+    <style>
+      :host {
+        display: block;
+      }
+      .boutons {
+        position: relative;
+        padding: 8px 8px 8px 24px;
+        margin: 0;
+
+        color: var(--paper-dialog-button-color, --primary-color);
+
+        @apply(--layout-horizontal);
+        @apply(--layout-end-justified);
+      }
+    </style>
+    <h1>Bienvenue [[userauth.displayName]]!</h1>
+    Nous vous invitons à compléter votre profil alimentaire afin que nous puissions vous guider lors de vos achats.
+
+    <profil-alim userauth="[[userauth]]" profil-data="{{profilData}}"></profil-alim>
+<!--TODO LA PROPRIETE DIALOG-CONFIRM PREND POUR ACQUIS QUE CET ELEMENT EST DANS UN PAPER-DIALOG...-->
+    Vous pourrez modifier ces informations a tout moment via le menu profil
+    <div class="boutons">
+      <paper-button dialog-dismiss>Non merci</paper-button>
+      <paper-button dialog-confirm on-click="_updateProfil">Continuer</paper-button>
+    </div>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'nouvel-usager',
+
+      properties: {
+        profilData: {
+          type: Object,
+          value: {},
+          notify: true
+        },
+        userauth: {
+          type: Object,
+          value: null
+        }
+      },
+      _updateProfil: function(){
+        var profilUpdates = {};
+        profilUpdates['/profil/' + this.userauth.uid + '/preferences'] = this.profilData;
+        firebase.database().ref().update(profilUpdates);
+      }
+    });
+
+  </script>
+
+</dom-module>

@@ -39,7 +39,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <paper-input label="Aimez-vous les mets préparés?"
       value="{{profilData.metsPrepares}}"
       disabled$="[[!userauth]]"></paper-input>
-    <paper-button on-click="test">test</paper-button>
   </template>
 
   <script>
@@ -51,17 +50,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       properties: {
         profilData: {
           type: Object,
-          value: null,
           notify: true
         },
         userauth: {
           type: Object,
           value: null
         }
-      },
-      test: function(){
-        console.log('userauth: ', this.userauth);
-        console.log('profilData: ', this.profilData);
       }
     });
 

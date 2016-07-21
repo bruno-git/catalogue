@@ -106,7 +106,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         console.log('uid: ', this.uid);
       },
       _connexionNouvelUsager: function(){
-        alert('nouvel usager ');
         //1- crée la clé pour la commande de l'usager
         var pathCommande = '/commandes/' + this.userauth.uid;
         console.log(pathCommande);
@@ -175,10 +174,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       setItem: function(detail) {
         this.itemid = detail.code;
         console.log('setItem detail: ');
+        console.log('detail au complet: ', detail);
         console.log('documentData: ', this.documentData);
         console.log('user id: ', this.uid);
         console.log('item id: ', this.itemid);
         console.log('key: ', this.$key);
+        console.log('userauth.uid: ', this.userauth.uid);
+        console.log('cleCommande: ', this.cleCommande);
+        console.log('itemid: ', this.itemid);
         //delete items with no quantity
         if (detail.quantite <1) {
           detail = null;

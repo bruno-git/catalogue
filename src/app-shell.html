@@ -26,6 +26,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="my-icons.html">
 <link rel="import" href="panier-data.html">
+<link rel="import" href="nouvel-usager.html">
 
 <dom-module id="app-shell">
 
@@ -89,6 +90,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-button on-click="_signIn" dialog-confirm>Google</paper-button>
       </div>
     </paper-dialog>
+<!-- PAPER-DIALOG (NOUVEL USAGER) -->
+    <paper-dialog id="nouvelUsagerDialog">
+      <div style="margin-bottom: 0px;">
+    </paper-dialog>
 
 <!-- IRON-PAGES -->
     <iron-pages role="main" selected="[[page]]" attr-for-selected="name">
@@ -141,7 +146,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       //déclenché lors de la connextion d'un nouvel usager
       _onNouvelUsager: function() {
-        this.set('route.path', '/profil');
+        //TEST LA VUE DIALOGUE...
+        this.$.nouvelUsagerDialog.open();
+        //this.set('route.path', '/profil');
       },
       _logout: function(){
         this.$.monPanierData.logout();
