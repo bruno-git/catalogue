@@ -133,17 +133,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <!-- APP-DRAWER-LAYOUT -->
     <app-drawer-layout>
       <app-drawer>
-        <a href="/accueil">
-          <app-toolbar id="toolbar-epicier">
-
+        <app-toolbar id="toolbar-epicier">
+            <a href="/accueil">
+              <paper-icon-button icon="arrow-back"></paper-icon-button>
+            </a>
             <iron-image src="../../images/epicier.png"></iron-image>
             <div title>Ma Commande</div>
           </app-toolbar>
-        </a>
-        <div class="zone-en-tete">
-          <div title>[[routeData.etape]]</div>
-          <iron-icon icon="search"></iron-icon>
-        </div>
 
 <!-- CATEGORIES DE LA ZONE -->
 <!-- OH YEAH BABY! BABY! -->
@@ -178,7 +174,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 on-click="_logout">
               </iron-image>
             </template>
-            <a name="panier" href="/panier" tabindex="-1">
+            <a name="panier" href="/commande/panier" tabindex="-1">
               <paper-icon-button icon="shopping-cart"></paper-icon-button>
             </a>
             <h4 condensed-title>[[routeData.etape]]</h4>

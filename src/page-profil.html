@@ -16,10 +16,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../bower_components/app-layout/app-scrollpos-control/app-scrollpos-control.html">
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../bower_components/paper-menu/paper-submenu.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+
 <link rel="import" href="profil-alim.html">
 
 <dom-module id="page-profil">
@@ -42,11 +51,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       app-header {
         /*background-color: var(--app-primary-color);*/
-        color: #fff;
+        color: black;
       }
       a {
         text-decoration: none;
-        color: white;
+        color: black;
       }
       #menu {
         background-color: rgb(146, 179, 217);
@@ -57,6 +66,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         border-radius: 2px;
         color: black;
       }
+      app-toolbar.tall {
+        height: 148px;
+      }
+      app-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 212px;
+        color: #fff;
+        background-color: var(--app-primary-color);
+        --app-header-background-front-layer: {
+          background-image: url('../../images/surgele.jpg');
+          background-position: left center;
+        };
+      }
+      paper-icon-button {
+        --paper-icon-button-ink-color: white;
+      }
     </style>
 
 <!-- FIREBASE-DOCUMENT -->
@@ -65,45 +93,90 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       data="{{profilData}}">
     </firebase-document>
 
-    <app-header-layout>
-      <app-header>
-        <app-toolbar class="adroite">
-          <div hidden$="[[userauth]]">
-            <paper-button on-click="_connexion">Connectez-vous!</paper-button>
-            <iron-icon icon="account-circle" style="width:40px;height:40px;"></iron-icon>
-          </div>
-          <div hidden$="[[!userauth]]">
-            <iron-image style="width:40px; height:40px;border-radius:100%;z-index:25;"
-              sizing="contain"
-              src="[[userauth.photoURL]]"
-              on-click="_openMenu">
-            </iron-image>
-            <iron-dropdown id="menu"
-              no-overlap
-              horizontal-align="right">
-              <div class="dropdown-content">
-                <a href="/profil" zindex="-1">
-                  <paper-button>Mon profil</paper-button>
-                </a>
-                <paper-button on-click="_logout">Déconnexion</paper-button>
-              </div>
-            </iron-dropdown>
-          </div>
-          <a name="panier" href="/commande/panier" tabindex="-1">
-            <paper-icon-button icon="shopping-cart"></paper-icon-button>
+<!-- APP-ROUTE -->
+    <app-route
+        route="{{route}}"
+        pattern="/:etape"
+        data="{{routeData}}"
+        tail="{{subroute}}">
+    </app-route>
+
+<!-- APP-SCROLLPOS-CONTROL-->
+    <app-scrollpos-control selected="{{routeData.etape}}"></app-scrollpos-control>
+
+<!-- APP-DRAWER-LAYOUT -->
+    <app-drawer-layout>
+      <app-drawer>
+        <app-toolbar id="toolbar-epicier">
+          <a href="/accueil">
+            <paper-icon-button icon="arrow-back"></paper-icon-button>
           </a>
+          <iron-image src="../../images/epicier.png"></iron-image>
+          <div title>Mon profil</div>
         </app-toolbar>
-      </app-header>
-      <div hidden$="[[!userauth]]" style="max-width:500px;">
-        Bonjour [[userauth.displayName]],<br>
-        Nous vous invitons à compléter votre profil alimentaire afin que nous puissions vous guider lors de vos achats.
-      </div>
-<!-- MESSAGE SI NON CONNECTÉ -->
-      <p hidden$="[[userauth]]">
-        Votre panier est vide.us devez être connecté pour modifier votre profil...[[profilData.length]]
-      </p>
-      <profil-alim profil-data="{{profilData}}" userauth="[[userauth]]"></profil-alim>
-    </app-header-layout>
+
+<!-- CATEGORIES DE LA ZONE -->
+<!-- OH YEAH BABY! BABY! -->
+        <paper-menu attr-for-item-title="label">
+          <a name="panier" href="/profil/alim" tab-index="-1">
+            <paper-item>1- Profil Alimentaire</paper-item>
+          </a>
+          <a name="adresse" href="/profil/adresse" tab-index="-1">
+            <paper-item>2- Mon adresse</paper-item>
+          </a>
+          <paper-item>3- Etape3</paper-item>
+          <paper-item>4- Etape4</paper-item>
+          <a name="aide" href="/commande/aide">
+            <paper-item>Aide (accoter en bas)</paper-item>
+          </a>
+        </paper-menu>
+
+      </app-drawer>
+
+      <app-header-layout>
+        <app-header condenses reveals effects="waterfall resize-title blend-background parallax-background">
+          <app-toolbar>
+<!--TODO BUG FIX: LA PROPRIETE DRAWER-TOGGLE est incompatible avec les autres
+                  et fait en sorte que les paper-icon-buttons ne sont plus visible
+            <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
+-->
+            <paper-icon-button icon="menu"></paper-icon-button>
+            <!-- USER IMAGE -->
+            <template is="dom-if" if="[[userlogged]]">
+              <iron-image style="width:40px; height:40px;border-radius:100%;z-index:25;" sizing="contain"
+                src="[[userauth.photoURL]]"
+                on-click="_logout">
+              </iron-image>
+            </template>
+            <a name="panier" href="/commande/panier" tabindex="-1">
+              <paper-icon-button icon="shopping-cart"></paper-icon-button>
+            </a>
+            <h4 condensed-title>[[routeData.etape]]</h4>
+            <paper-icon-button icon="shopping-cart"></paper-icon-button>
+          </app-toolbar>
+          <app-toolbar class="tall">
+            <h1 title>[[routeData.etape]]</h1>
+          </app-toolbar>
+        </app-header>
+        <div hidden$="[[!userauth]]" style="max-width:500px;">
+          Bonjour [[userauth.displayName]],<br>
+          Nous vous invitons à compléter votre profil alimentaire afin que nous puissions vous guider lors de vos achats.
+        </div>
+  <!-- MESSAGE SI NON CONNECTÉ -->
+        <p hidden$="[[userauth]]">
+          Vous devez être connecté pour modifier votre profil...
+        </p>
+<!-- IRON-PAGES -->
+        <iron-pages selected="[[routeData.etape]]" attr-for-selected="name">
+          <profil-alim name="alim" profil-data="{{profilData}}" userauth="[[userauth]]"></profil-alim>
+<!--
+          <vue-panier name="panier" userauth="[[userauth]]" panier="[[panier]]"></vue-panier>
+          <vue-adresse name="adresse"></vue-adresse>
+-->
+        </iron-pages>
+      </app-header-layout>
+    </app-drawer-layout>
+
     <a href="/catalogue">
       <paper-fab icon="check"></paper-fab>
     </a>
@@ -116,6 +189,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'page-profil',
 
       properties: {
+        etape: {
+          type: String,
+          value: 'panier'
+        },
+        route: {
+          type: Object,
+          value: null
+        },
+        routeData: {
+          type: Object,
+          value: null
+        },
         userauth: {
           type: Object,
           value: null

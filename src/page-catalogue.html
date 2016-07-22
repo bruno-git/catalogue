@@ -22,6 +22,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-image/iron-image.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
 <link rel="import" href="../bower_components/paper-menu/paper-menu.html">
 <link rel="import" href="../bower_components/paper-menu/paper-submenu.html">
@@ -155,16 +156,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <!-- APP-DRAWER-LAYOUT -->
     <app-drawer-layout>
       <app-drawer>
-        <a href="/accueil">
-          <app-toolbar id="toolbar-epicier">
-            <iron-image src="../../images/epicier.png"></iron-image>
-            <div title>Epicier</div>
-          </app-toolbar>
-        </a>
-        <div class="zone-en-tete">
-          <div title>[[routeData.zone]]</div>
-          <iron-icon icon="search"></iron-icon>
-        </div>
+        <app-toolbar id="toolbar-epicier">
+          <a href="/accueil">
+            <paper-icon-button icon="arrow-back"></paper-icon-button>
+          </a>
+          <iron-image src="../../images/epicier.png"></iron-image>
+          <div title>Catalogue</div>
+        </app-toolbar>
 
 <!-- CATEGORIES DE LA ZONE -->
 <!-- OH YEAH BABY! BABY! -->
