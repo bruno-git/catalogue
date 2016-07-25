@@ -96,7 +96,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       a {
         text-decoration: none;
-        color: white;
+        color: black;
       }
       paper-button {
         color: black;
@@ -125,9 +125,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--layout-horizontal);
         @apply(--layout-end-justified);
       }
+      .notlogged {
+        background-image: linear-gradient(to left, orange, yellow 200px, #eee 375px);
+        color: black;
+      }
     </style>
     <app-header>
-      <app-toolbar class="adroite">
+      <app-toolbar id="sectionConnexion" class="adroite">
         <div hidden$="[[userauth]]">
           <paper-button on-click="_connexion">Connectez-vous!</paper-button>
           <iron-icon icon="account-circle" style="width:40px;height:40px;"></iron-icon>
@@ -150,7 +154,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </iron-dropdown>
         </div>
         <a name="panier" href="/commande/panier" tabindex="-1">
-          <paper-icon-button icon="shopping-cart"></paper-icon-button>
+          <paper-icon-button icon="shopping-cart"style="width:40px;height:40px;"></paper-icon-button>
         </a>
       </app-toolbar>
     </app-header>
@@ -183,7 +187,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       properties: {
         userauth: {
           type: Object,
-          value: null
+          value: null,
+          observer: '_userauthChanged'
+        }
+      },
+      _userauthChanged: function(newvalue){
+        if (newvalue){
+          this.$.sectionConnexion.classList.remove('notlogged');
+        }
+        else {
+          this.$.sectionConnexion.classList.add('notlogged');
         }
       },
       _openMenu: function(){
