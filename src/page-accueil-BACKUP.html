@@ -59,6 +59,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin: 16px 0;
         color: #212121;
       }
+      app-header {
+        /*background-color: var(--app-primary-color);*/
+        color: #fff;
+      }
       .principal {
         height: calc(100vh - 100px);
         @apply(--layout-vertical);
@@ -92,7 +96,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       a {
         text-decoration: none;
-        color: white;
+        color: black;
       }
       paper-button {
         color: black;
@@ -122,43 +126,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         @apply(--layout-end-justified);
       }
       .notlogged {
-        /*background-image: linear-gradient(to left, orange, yellow 200px, #eee 375px);*/
-        /*color: black;*/
-      }
-      app-toolbar {
-        background-color: var(--app-primary-color);
-        color: white;
-      }
-      .moncentre {
-        position: absolute;
-        left: auto;
-        right: auto;
-        bottom: 0;
+        background-image: linear-gradient(to left, orange, yellow 200px, #eee 375px);
         color: black;
-        z-index:4;
-      }
-      .aucentre {
-        position: absolute;
-        right: 0;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
       }
     </style>
     <app-header>
-      <app-toolbar>
-        <div class="aucentre">
-          <iron-image src="../../images/epicier_blanc.png"></iron-image>
-        </div>
-        <paper-icon-button icon="menu"></paper-icon-button>
-        <div title>Accueil</div>
+      <app-toolbar id="sectionConnexion" class="adroite">
         <div hidden$="[[userauth]]">
           <paper-button on-click="_connexion">Connectez-vous!</paper-button>
-          <paper-icon-button icon="account-circle" on-click="_connexion"></paper-icon-button>
+          <iron-icon icon="account-circle" style="width:40px;height:40px;"></iron-icon>
         </div>
         <div hidden$="[[!userauth]]">
           <iron-image style="width:40px; height:40px;border-radius:100%;z-index:25;"
@@ -183,22 +159,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </app-toolbar>
     </app-header>
 
-    <div class="principal">
-      <div class="bloc">
-        <iron-image src="../../images/epicier-original.png"></iron-image>
+      <div class="principal">
+        <div class="bloc">
+          <iron-image src="../../images/epicier-original.png"></iron-image>
+        </div>
+        <div class="bloc">
+          One liner de fou
+        </div>
+        <div class="bloc">
+          <iron-image src="https://source.unsplash.com/category/food/800x400" class="image-principale" preload fade></iron-image>
+        </div>
+        <div class="bloc">
+          <a href="/catalogue" tabindex="-1">
+            <paper-button raised>Magasiner</paper-button>
+          </a>
+        </div>
       </div>
-      <div class="bloc">
-        One liner de fou
-      </div>
-      <div class="bloc">
-        <iron-image src="https://source.unsplash.com/category/food/800x400" class="image-principale" preload fade></iron-image>
-      </div>
-      <div class="bloc">
-        <a href="/catalogue" tabindex="-1">
-          <paper-button raised>Magasiner</paper-button>
-        </a>
-      </div>
-    </div>
 
   </template>
 
@@ -211,10 +187,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       properties: {
         userauth: {
           type: Object,
-          value: null
+          value: null,
+          observer: '_userauthChanged'
         }
       },
-/*
       _userauthChanged: function(newvalue){
         if (newvalue){
           this.$.sectionConnexion.classList.remove('notlogged');
@@ -223,7 +199,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.$.sectionConnexion.classList.add('notlogged');
         }
       },
-*/
       _openMenu: function(){
         this.$.menu.open();
       },
