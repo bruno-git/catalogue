@@ -28,6 +28,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-menu/paper-submenu.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/paper-material/paper-material.html">
 <link rel="import" href="catalogue-item.html">
 <dom-module id="page-catalogue">
 
@@ -36,10 +37,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style>
       :host {
         display: block;
-        /*padding: 10px;*/
-        --app-drawer-content-container: {
-          color: yellow;
-        };
       }
       /*
       .drawer-list {
@@ -110,6 +107,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       paper-menu {
         background-color: #eee;
       }
+      .principal {
+        width: calc(100% - 256px);
+      }
+      .secondaire-overlay {
+        position: fixed;
+        right: 10px;
+        top: 88px;
+        width: 256px;
+        background-color: white;
+      }
     </style>
 
 <!-- APP-ROUTE -->
@@ -145,95 +152,103 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <!-- APP-SCROLLPOS-CONTROL-->
     <app-scrollpos-control selected="{{subrouteData.categorie}}"></app-scrollpos-control>
 
-<app-header-layout>
-  <app-header fixed effects="waterfall">
-    <app-toolbar>
-      <div class="aucentre">
-        <iron-image src="../../images/epicier_blanc.png"></iron-image>
-      </div>
-      <a href="/accueil" tabindex="-1">
-        <paper-icon-button icon="arrow-back"></paper-icon-button>
-      </a>
-      <div title>Catalogue</div>
-      <div hidden$="[[userauth]]">
-        <paper-button on-click="_connexion">Connectez-vous!</paper-button>
-        <paper-icon-button icon="account-circle" on-click="_connexion"></paper-icon-button>
-      </div>
-      <div hidden$="[[!userauth]]">
-        <iron-image style="width:40px; height:40px;border-radius:100%;z-index:25;"
-          sizing="contain"
-          src="[[userauth.photoURL]]"
-          on-click="_openMenu">
-        </iron-image>
-        <iron-dropdown id="menu"
-          no-overlap
-          horizontal-align="right">
-          <div class="dropdown-content">
-            <a href="/profil" zindex="-1">
-              <paper-button>Mon profil</paper-button>
-            </a>
-            <paper-button on-click="_logout">Déconnexion</paper-button>
+    <app-header-layout>
+      <app-header fixed effects="waterfall">
+        <app-toolbar>
+          <div class="aucentre">
+            <iron-image src="../../images/epicier_blanc.png"></iron-image>
           </div>
-        </iron-dropdown>
-      </div>
-      <a name="panier" href="/commande/panier" tabindex="-1">
-        <paper-icon-button icon="shopping-cart"style="width:40px;height:40px;"></paper-icon-button>
-      </a>
-    </app-toolbar>
-  </app-header>
-
-<!-- APP-DRAWER-LAYOUT -->
-    <app-drawer-layout>
-      <app-drawer>
-        <app-toolbar id="toolbar-epicier">
-          <a href="/accueil">
-            <paper-fab mini icon="arrow-back" style="background-color: black;"></paper-fab>
+          <a href="/accueil" tabindex="-1">
+            <paper-icon-button icon="arrow-back"></paper-icon-button>
           </a>
           <div title>Catalogue</div>
+          <div hidden$="[[userauth]]">
+            <paper-button on-click="_connexion">Connectez-vous!</paper-button>
+            <paper-icon-button icon="account-circle" on-click="_connexion"></paper-icon-button>
+          </div>
+          <div hidden$="[[!userauth]]">
+            <iron-image style="width:40px; height:40px;border-radius:100%;z-index:25;"
+              sizing="contain"
+              src="[[userauth.photoURL]]"
+              on-click="_openMenu">
+            </iron-image>
+            <iron-dropdown id="menu"
+              no-overlap
+              horizontal-align="right">
+              <div class="dropdown-content">
+                <a href="/profil" zindex="-1">
+                  <paper-button>Mon profil</paper-button>
+                </a>
+                <paper-button on-click="_logout">Déconnexion</paper-button>
+              </div>
+            </iron-dropdown>
+          </div>
+          <a name="panier" href="/commande/panier" tabindex="-1">
+            <paper-icon-button icon="shopping-cart"style="width:40px;height:40px;"></paper-icon-button>
+          </a>
         </app-toolbar>
+      </app-header>
+
+<!-- APP-DRAWER-LAYOUT -->
+      <app-drawer-layout>
+        <app-drawer>
+          <app-toolbar id="toolbar-epicier">
+            <a href="/accueil">
+              <paper-fab mini icon="arrow-back" style="background-color: black;"></paper-fab>
+            </a>
+            <div title>Catalogue</div>
+          </app-toolbar>
 
 <!-- CATEGORIES DE LA ZONE -->
 <!-- OH YEAH BABY! BABY! -->
-        <paper-menu attr-for-item-title="label">
-          <template is="dom-repeat" items="[[menuzones.zones]]" as="zone">
-            <paper-submenu label="[[zone.nom]]">
-              <paper-item class="menu-trigger zone-en-tete">[[zone.titre]]</paper-item>
-              <paper-menu class="menu-content">
-                <template is="dom-repeat" items="[[zone.categories]]" as="cat">
-                  <a name="[[cat.titre]]" href$="/catalogue/[[zone.nom]]/[[cat.nom]]" tab-index="-1">
-                    <paper-item>[[cat.titre]]</paper-item>
-                  </a>
-                </template>
-              </paper-menu>
-            </paper-submenu>
-          </template>
-          <a name="aide" href="/catalogue/aide">
-            <paper-item>Aide (accoter en bas)</paper-item>
-          </a>
-        </paper-menu>
-
-      </app-drawer>
+          <paper-menu attr-for-item-title="label">
+            <template is="dom-repeat" items="[[menuzones.zones]]" as="zone">
+              <paper-submenu label="[[zone.nom]]">
+                <paper-item class="menu-trigger zone-en-tete">[[zone.titre]]</paper-item>
+                <paper-menu class="menu-content">
+                  <template is="dom-repeat" items="[[zone.categories]]" as="cat">
+                    <a name="[[cat.titre]]" href$="/catalogue/[[zone.nom]]/[[cat.nom]]" tab-index="-1">
+                      <paper-item>[[cat.titre]]</paper-item>
+                    </a>
+                  </template>
+                </paper-menu>
+              </paper-submenu>
+            </template>
+            <a name="aide" href="/catalogue/aide">
+              <paper-item>Aide (accoter en bas)</paper-item>
+            </a>
+          </paper-menu>
+        </app-drawer>
 
 <!-- CONTENU PRINCIPAL -->
+        <div class="principal">
 <!-- INFORMATION SUR LA ZONE -->
-        <template is="dom-if" if="[[!subrouteData.categorie]]">
-          <div class="card">
-            contenu de la carte d'information contextuelle pour la zone [[routeData.zone]]
-            tous nos produits sont beaux bons pas cher
-          </div>
-        </template>
+          <template is="dom-if" if="[[!subrouteData.categorie]]">
+            <div class="card">
+              contenu de la carte d'information contextuelle pour la zone [[routeData.zone]]
+              tous nos produits sont beaux bons pas cher
+            </div>
+          </template>
 <!-- AFFICHE L'AIDE -->
-        <template is="dom-if" if="[[_ifCategorieAide(subrouteData.categorie)]]">
-          aide
-          créer un élément pour afficher l'aide contextuelle de cette page
-        </template>
+          <template is="dom-if" if="[[_ifCategorieAide(subrouteData.categorie)]]">
+            aide
+            créer un élément pour afficher l'aide contextuelle de cette page
+          </template>
 
 <!-- LISTE ITEMS DE LA CATEGORIE -->
-        <template id="listeItems" is="dom-repeat" items="[[catalogue.items]]" filter="_computeFilter">
-          <catalogue-item item="[[item]]" userlogged=[[userlogged]]></catalogue-item>
-        </template>
-    </app-drawer-layout>
-</app-header-layout>
+          <template id="listeItems" is="dom-repeat" items="[[catalogue.items]]" filter="_computeFilter">
+            <catalogue-item item="[[item]]" userlogged=[[userlogged]]></catalogue-item>
+          </template>
+        </div>
+      </app-drawer-layout>
+    </app-header-layout>
+    <paper-material elevation="1" class="secondaire-overlay">
+      Statistiques de la commande
+      <iron-image src="../../images/bar_chart.jpg"
+      style="width: 250px; height: 160px;"
+      sizing="contain"></iron-image>
+      Résumé par catégorie et total...
+    </paper-material>
   </template>
 
   <script>
