@@ -192,12 +192,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <!-- APP-DRAWER-LAYOUT -->
       <app-drawer-layout>
         <app-drawer>
-          <app-toolbar id="toolbar-epicier">
-            <a href="/accueil">
-              <paper-fab mini icon="arrow-back" style="background-color: black;"></paper-fab>
-            </a>
-            <div title>Catalogue</div>
-          </app-toolbar>
+          <!--section non visible - sous le toolbar de la page principale -->
+          <app-toolbar></app-toolbar>
 
 <!-- CATEGORIES DE LA ZONE -->
 <!-- OH YEAH BABY! BABY! -->
@@ -248,6 +244,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       style="width: 250px; height: 160px;"
       sizing="contain"></iron-image>
       Résumé par catégorie et total...
+      <a href="/commande/panier" tabindex="-1">
+        <paper-button>aller au panier</paper-button>
+      </a>
     </paper-material>
   </template>
 

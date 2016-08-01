@@ -41,19 +41,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         text-decoration: none;
         color: black;
       }
-      .zone-en-tete {
-        height: 48px;
-        line-height: 48px;
-        background: #eceff1;
-        border: solid;
-        border-color: #cfd8dc;
-        border-width: 1px 0;
-        font-size: 16px;
-        color: #424242;
-        font-weight: bold;
-        @apply(--layout-horizontal);
-        @apply(--layout-justified);
-      }
       paper-icon-button {
         --paper-icon-button-ink-color: white;
         color: white;
@@ -61,6 +48,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app-toolbar {
         background-color: var(--app-primary-color);
         color: white;
+      }
+      app-drawer {
+        --app-drawer-content-container: {
+          background-color: #eee;
+        };
+      }
+      paper-item {
+        background-color: #eee;
+      }
+      paper-menu {
+        background-color: #eee;
       }
       .aucentre {
         position: absolute;
@@ -82,6 +80,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         top: 88px;
         width: 256px;
         background-color: white;
+      }
+      .enbas {
+        position: absolute;
+        bottom: 120px;
+        left: 0;
       }
     </style>
 
@@ -134,59 +137,57 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </app-header>
 
 <!-- APP-DRAWER-LAYOUT -->
-    <app-drawer-layout>
-      <app-drawer>
-        <app-toolbar id="toolbar-epicier">
-            <a href="/accueil">
-              <paper-icon-button icon="arrow-back"></paper-icon-button>
-            </a>
-            <iron-image src="../../images/epicier.png"></iron-image>
-            <div title>Ma Commande</div>
-          </app-toolbar>
+      <app-drawer-layout>
+        <app-drawer>
+          <!-- non visible - apparait sous toolbar parent -->
+          <app-toolbar></app-toolbar>
 
 <!-- CATEGORIES DE LA ZONE -->
 <!-- OH YEAH BABY! BABY! -->
-        <paper-menu attr-for-item-title="label">
-          <a name="panier" href="/commande/panier" tab-index="-1">
-            <paper-item>1- Mon panier</paper-item>
-          </a>
-          <a name="adresse" href="/commande/adresse" tab-index="-1">
-            <paper-item>2- Mon adresse</paper-item>
-          </a>
-          <paper-item>3- Etape3</paper-item>
-          <paper-item>4- Etape4</paper-item>
-          <a name="aide" href="/commande/aide">
+          <paper-menu attr-for-item-title="label">
+            <a name="panier" href="/commande/panier" tab-index="-1">
+              <paper-item>1- Mon panier</paper-item>
+            </a>
+            <a name="adresse" href="/commande/adresse" tab-index="-1">
+              <paper-item>2- Mon adresse</paper-item>
+            </a>
+            <paper-item>3- Etape3</paper-item>
+            <paper-item>4- Etape4</paper-item>
+          </paper-menu>
+          <a name="aide" href="/commande/aide" class="enbas">
             <paper-item>Aide (accoter en bas)</paper-item>
           </a>
-        </paper-menu>
-
-      </app-drawer>
+        </app-drawer>
 
 <!-- CONTENU PRINCIPAL -->
-      <div class="principal">
+        <div class="principal">
 
 <!-- INFORMATION SUR LA ZONE -->
-        <template is="dom-if" if="[[!routeData.etape]]">
-          <div class="card">
-            contenu de la carte d'information contextuelle pour poursuivre la commande
-          </div>
-        </template>
+          <template is="dom-if" if="[[!routeData.etape]]">
+            <div class="card">
+              contenu de la carte d'information contextuelle pour poursuivre la commande
+            </div>
+          </template>
 
 <!-- IRON-PAGES -->
-        <iron-pages selected="[[etape]]" attr-for-selected="name">
-          <vue-panier name="panier" userauth="[[userauth]]" panier="[[panier]]"></vue-panier>
-          <vue-adresse name="adresse"></vue-adresse>
-        </iron-pages>
-      </div>
-    </app-drawer-layout>
-  </app-header-layout>
-  <paper-material elevation="1" class="fixed-overlay">
-    Statistiques de la commande
-    <iron-image src="../../images/bar_chart.jpg"
-    style="width: 250px; height: 160px;"
-    sizing="contain"></iron-image>
-    Résumé par catégorie et total...
-  </paper-material>
+          <iron-pages selected="[[etape]]" attr-for-selected="name">
+            <vue-panier name="panier" userauth="[[userauth]]" panier="[[panier]]"></vue-panier>
+            <vue-adresse name="adresse"></vue-adresse>
+            <vue-transaction name="transaction"></vue-transaction>
+          </iron-pages>
+        </div>
+      </app-drawer-layout>
+    </app-header-layout>
+    <paper-material elevation="1" class="fixed-overlay">
+      Statistiques de la commande
+      <iron-image src="../../images/bar_chart.jpg"
+      style="width: 250px; height: 160px;"
+      sizing="contain"></iron-image>
+      Résumé par catégorie et total...
+      <a href="/commande/transaction" tabindex="-1">
+        <paper-button>passer la commande</paper-button>
+      </a>
+    </paper-material>
   </template>
 
   <script>
