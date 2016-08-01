@@ -34,61 +34,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         overflow-y: auto;
         */
       }
-      .card {
-        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-        padding: 16px;
-        margin: 24px;
-        border-radius: 5px;
-        background-color: rgba(255, 255, 255, 0.8);
-        /*background-color: #fff;*/
-        color: #757575;
-      }
-      .circle {
-        display: inline-block;
-        height: 64px;
-        width: 64px;
-        border-radius: 50%;
-        background: #ddd;
-        line-height: 64px;
-        font-size: 30px;
-        color: #555;
-        text-align: center;
-      }
-      h1 {
-        font-size: 22px;
-        margin: 16px 0;
-        color: #212121;
-      }
       .principal {
         height: calc(100vh - 100px);
         @apply(--layout-vertical);
         @apply(--layout-around-justified);
         @apply(--layout-center);
-      }
-      .gauche {
-        overflow-y: auto;
-        width: 300px;
-        padding: 10px;
-        background-image: linear-gradient(to right, black, 80%, rgba(255,255,255,0.01));
-        @apply(--layout-flex-none);
-        @apply(--layout-vertical);
-      }
-      .carte-menu {
-        width: 90%;
-        background-color: rgb(65, 65, 65);
-        height: 200px;
-        margin-top: 10px;
-        /*background-image: url('https://source.unsplash.com/category/food/300x200');*/
-
-        @apply(--layout-vertical);
-        @apply(--layout-center-center);
-      }
-      .carte-menu > a {
-        font-size: 22px;
-      }
-      .detail {
-        font-size: 14px;
-        color: white;
       }
       a {
         text-decoration: none;
@@ -97,17 +47,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       paper-button {
         color: black;
       }
-      .bloc {
-        /*margin-top: 10px;*/
-      }
       .image-principale {
         background-color: black;
         height: 400px;
         width: 800px;
-      }
-      .drawer-droite {
-        @apply(--layout-vertical);
-        @apply(--layout-center);
       }
       #menu {
         background-color: rgb(146, 179, 217);
@@ -116,14 +59,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         border-color: rgb(180, 211, 246);
         border-width: thin;
         border-radius: 2px;
-      }
-      .adroite {
-        @apply(--layout-horizontal);
-        @apply(--layout-end-justified);
-      }
-      .notlogged {
-        /*background-image: linear-gradient(to left, orange, yellow 200px, #eee 375px);*/
-        /*color: black;*/
       }
       app-toolbar {
         background-color: var(--app-primary-color);
@@ -184,16 +119,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </app-header>
 
     <div class="principal">
-      <div class="bloc">
+      <div>
         <iron-image src="../../images/epicier-original.png"></iron-image>
       </div>
-      <div class="bloc">
+      <div>
         One liner de fou
       </div>
-      <div class="bloc">
+      <div>
         <iron-image src="https://source.unsplash.com/category/food/800x400" class="image-principale" preload fade></iron-image>
       </div>
-      <div class="bloc">
+      <div>
         <a href="/catalogue" tabindex="-1">
           <paper-button raised>Magasiner</paper-button>
         </a>
@@ -214,16 +149,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           value: null
         }
       },
-/*
-      _userauthChanged: function(newvalue){
-        if (newvalue){
-          this.$.sectionConnexion.classList.remove('notlogged');
-        }
-        else {
-          this.$.sectionConnexion.classList.add('notlogged');
-        }
-      },
-*/
       _openMenu: function(){
         this.$.menu.open();
       },
