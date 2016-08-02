@@ -26,31 +26,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
         /*
-        background-image: url('https://source.unsplash.com/category/nature/800x600');
+        background-image: url('https://source.unsplash.com/category/nature/800x600');*/
+        background-image: url('../../images/instacart_bg.jpg');
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
         height: 100vh;
         overflow-y: auto;
-        */
+
       }
       .principal {
-        height: calc(100vh - 100px);
+        height: calc(100vh - 64px);
+
         @apply(--layout-vertical);
         @apply(--layout-around-justified);
         @apply(--layout-center);
       }
       a {
         text-decoration: none;
-        color: white;
-      }
-      paper-button {
         color: black;
       }
       .image-principale {
         background-color: black;
         height: 400px;
         width: 800px;
+      }
+      .image-bloc {
+        background-color: #eee;
+        height: 250px;
+        width: 250px;
+        border-style: solid;
+        border-color: rgb(180, 211, 246);
+        border-width: thin;
+        border-radius: 5px;
       }
       #menu {
         background-color: rgb(146, 179, 217);
@@ -61,8 +69,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         border-radius: 2px;
       }
       app-toolbar {
-        background-color: var(--app-primary-color);
-        color: white;
+        /*background-color: var(--app-primary-color);
+        color: white;*/
+        background-color: white;
+        color: black;
       }
       .moncentre {
         position: absolute;
@@ -83,11 +93,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         align-items: center;
         justify-content: center;
       }
+      .mesblocs {
+        width: 100%;
+        max-width: 800px;
+        @apply(--layout-horizontal);
+        @apply(--layout-justified);
+      }
+      .unbloc {
+        @apply(--layout-flex);
+      }
+      .infocontextuelle {
+        min-height: 100px;
+        max-width: 800px;
+        width: 100%;
+        padding: 10px;
+
+        background-color: rgba(250,250,250,0.9);
+        /*background-image: linear-gradient(to top, rgb(204, 228, 255), 70%, white);*/
+        border-style: solid;
+        border-color: rgb(180, 211, 246);
+        border-width: thin;
+        border-radius: 2px;
+      }
     </style>
+<!-- FIREBASE-DOCUMENT pour aller lire le statut de la commande en cours -->
+    <firebase-document id="firebaseProfil"
+      path="/profil/[[userauth.uid]]/statut"
+      data="{{profilData}}">
+    </firebase-document>
+
     <app-header>
       <app-toolbar>
         <div class="aucentre">
-          <iron-image src="../../images/epicier_blanc.png"></iron-image>
+          <iron-image src="../../images/epicier.png"></iron-image>
         </div>
         <paper-icon-button icon="menu"></paper-icon-button>
         <div title>Accueil</div>
@@ -119,19 +157,51 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </app-header>
 
     <div class="principal">
+<!--
       <div>
         <iron-image src="../../images/epicier-original.png"></iron-image>
       </div>
-      <div>
-        One liner de fou
-      </div>
-      <div>
-        <iron-image src="https://source.unsplash.com/category/food/800x400" class="image-principale" preload fade></iron-image>
-      </div>
-      <div>
-        <a href="/catalogue" tabindex="-1">
-          <paper-button raised>Magasiner</paper-button>
-        </a>
+-->
+      <div class="infocontextuelle">
+        <template is="dom-if" if="[[!userauth]]">
+          <h2>Bienvenue!</h2>
+          Connectez-vous ou créez votre compte en un clic!<br><br>
+          <b>Première visite?</b><br>
+          Complétez votre profil alimentaire et nous vous proposerons une liste d'achats pour vous simplifier la vie.
+        </template>
+        <template is="dom-if" if="[[userauth]]">
+          <h2>Bonjour [[userauth.displayName]],</h2>
+          <template is="dom-if" if="{{_isnouveau(profilData)}}">
+            Avez-vous complété votre profil? En répondant a 3 questions toutes simples,
+            notre assistant pourra vous conseiller pour créer votre commande.<br>
+            Cliquez ici pour compléter votre profil: bouton.
+          </template>
+        </template>
+        <div class="mesblocs">
+          <div class="unbloc">
+            <iron-image src="https://source.unsplash.com/category/food/250x250" class="image-bloc" preload fade></iron-image>
+            <b>1- Connexion et Profil</b> <br>
+            Connectez-vous ou créez votre compte en un clic!<br>
+            <b>Première visite?</b><br>
+            Nous vous proposerons une liste d'achats et quantités en nous basant sur votre profil.
+          </div>
+          <div class="unbloc">
+            <iron-image src="https://source.unsplash.com/category/food/250x251" class="image-bloc" preload fade></iron-image>
+            <b>2- Organisation des aliments et produits</b> <br>
+            Les aliments et produits sont catégorisé en trois catégories: Congélateur, Garde-manger, Produits ménagers
+
+          </div>
+          <div class="unbloc">
+            <iron-image src="https://source.unsplash.com/category/food/250x252" class="image-bloc" preload fade></iron-image>
+            <b>3- Validez votre budget</b><br>
+            Tout au long de vos achats, notre assistant vous guidera pour vous permettre de faire des choix éclairés tout en respectant votre budget.
+          </div>
+        </div>
+        <div>
+          <a href="/catalogue" tabindex="-1">
+            <paper-button raised>Commencer</paper-button>
+          </a>
+        </div>
       </div>
     </div>
 
@@ -147,7 +217,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         userauth: {
           type: Object,
           value: null
+        },
+        profilData: {
+          type: Object,
+          notify: false,
+          observer: '_profilchanged'
         }
+      },
+      //TODO cette methode est appelee vraiment trop souvent... (4 fois)
+      _isnouveau: function(profil){
+        //alert('IS NOUVEAU CALLED');
+        if (profil == 'nouveau') {
+          console.log('nouveau');
+          return true;
+        }
+        else {
+          console.log('pas nouveau');
+          return false;
+        }
+      },
+      _profilchanged: function(newvalue) {
+        console.dir(newvalue);
+        //alert('profil changed: ', newvalue);
       },
       _openMenu: function(){
         this.$.menu.open();
