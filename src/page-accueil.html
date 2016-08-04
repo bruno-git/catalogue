@@ -37,10 +37,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       .principal {
         height: calc(100vh - 64px);
+        max-width: 1000px;
+        margin: auto;
+        @apply(--layout-horizontal);
 
-        @apply(--layout-vertical);
+        /*@apply(--layout-vertical);
         @apply(--layout-around-justified);
-        @apply(--layout-center);
+        @apply(--layout-center);*/
       }
       a {
         text-decoration: none;
@@ -71,7 +74,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app-toolbar {
         /*background-color: var(--app-primary-color);
         color: white;*/
-        background-color: white;
+        background-color: rgba(255, 255, 255, 0.3);
         color: black;
       }
       .moncentre {
@@ -115,6 +118,79 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         border-width: thin;
         border-radius: 2px;
       }
+      .blocinfo {
+        background-color: white;
+        width: 400px;
+        height: 500px;
+        top: calc((100vh - 564px) / 2);
+        margin-left: 20px;
+        padding: 20px 25px;
+      }
+      h2 {
+        padding: 0 0 0 15px;
+      }
+      h3 {
+        border-bottom: 1px solid rgb(200, 200, 200);
+        padding: 0 15px 18px 15px;
+      }
+      p {
+        color: rgb(125, 125, 125);
+        font-size: 16px;
+        letter-spacing: -.02em;
+        line-height: 1.6em;
+        padding: 0 15px;
+        margin: 8px 10px 8px 0;
+        overflow: visible;
+      }
+      .sectionaction {
+        position: absolute;
+        background-color: yellow;
+        bottom: 0;
+        left: 0;
+        height: 50px;
+        width: 100%;
+        @apply(--layout-horizontal);
+        @apply(--layout-end-justified);
+        @apply(--layout-center);
+      }
+      .active {
+        opacity: 1;
+        transition: opacity .3s ease;
+      }
+      /* caroussel tests*/
+      .caroussel {
+        position: relative;
+        clear: both;
+      }
+      .caroussel-scroll {
+        background-color: white;
+        position: relative;
+        clear: both;
+        /*height: 537px;*/
+        overflow: hidden;
+        transform: translate3d(0, 0, 0);
+      }
+      .caroussel-content {
+        transition: all .6s ease;
+        font-size: 0;
+        position: relative;
+        white-space: nowrap;
+      }
+      .caroussel-item {
+        display: inline-block;
+        font-size: 13px;
+        vertical-align: top;
+        width: 100%;
+        backface-visibility: hidden;
+      }
+      .caroussel-item-content {
+        margin: 0 auto;
+        max-width: 1000px;
+        white-space: normal;
+      }
+      .move {
+        transform: translate3d(-400px, 0px, 0px);
+      }
     </style>
 <!-- FIREBASE-DOCUMENT pour aller lire le statut de la commande en cours -->
     <firebase-document id="firebaseProfil"
@@ -153,16 +229,52 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <a name="panier" href="/commande/panier" tabindex="-1">
           <paper-icon-button icon="shopping-cart"style="width:40px;height:40px;"></paper-icon-button>
         </a>
+        <paper-icon-button icon="apps"></paper-icon-button>
       </app-toolbar>
     </app-header>
 
     <div class="principal">
 <!--
-      <div>
-        <iron-image src="../../images/epicier-original.png"></iron-image>
-      </div>
+      <paper-material class="blocinfo">
+        <div class="caroussel-content">
+          <h2>Titre</h2>
+          <h3>sous-titre</h3>
+          <p>
+            contenu de texte qui doit etre long long long long long long long long long long long long long long long long long long long long
+          </p>
+        </div>
+        <div class="sectionaction">
+          <paper-button raised>next</paper-button>
+        </div>
+      </paper-material>
 -->
-      <div class="infocontextuelle">
+      <div class="caroussel blocinfo">
+        <div class="caroussel-scroll">
+          <div id="moveid" class="caroussel-content">
+            <div class="caroussel-item">
+              <div class="caroussel-item-content">
+                <h2>Titre</h2>
+                <h3>sous-titre</h3>
+                <p>
+                  contenu de texte qui doit etre long long long long long long long long long long long long long long long long long long long long
+                </p>
+              </div>
+            </div>
+            <div class="caroussel-item">
+              <div class="caroussel-item-content">
+                <h2>Titre</h2>
+                <h3>sous-titre</h3>
+                <p>
+                  contenu de texte qui doit etre long long long long long long long long long long long long long long long long long long long long
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <paper-button raised on-click="_move">move</paper-button>
+<!--
+      <div class="infocontextuelle" style="float: left;">
         <template is="dom-if" if="[[!userauth]]">
           <h2>Bienvenue!</h2>
           Connectez-vous ou créez votre compte en un clic!<br><br>
@@ -203,6 +315,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </a>
         </div>
       </div>
+-->
     </div>
 
   </template>
@@ -223,6 +336,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           notify: false,
           observer: '_profilchanged'
         }
+      },
+      _move: function(){
+        this.$.moveid.classList.toggle('move');
       },
       //TODO cette methode est appelee vraiment trop souvent... (4 fois)
       _isnouveau: function(profil){
