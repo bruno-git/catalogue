@@ -13,10 +13,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-material/paper-material.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+
 
 <dom-module id="page-accueil">
 
@@ -26,11 +28,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host {
         display: block;
         /*
-        background-image: url('https://source.unsplash.com/category/nature/800x600');*/
         background-image: url('../../images/instacart_bg.jpg');
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
+        */
         height: 100vh;
         overflow-y: auto;
 
@@ -128,6 +130,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       h2 {
         padding: 0 0 0 15px;
+        color: var(--app-primary-color);
       }
       h3 {
         border-bottom: 1px solid rgb(200, 200, 200);
@@ -144,7 +147,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       .sectionaction {
         position: absolute;
-        background-color: yellow;
+        background-color: rgba(119, 17, 20, 0.2);
         bottom: 0;
         left: 0;
         height: 50px;
@@ -191,6 +194,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .move {
         transform: translate3d(-400px, 0px, 0px);
       }
+      .caroussel-bg {
+        position: absolute;
+        width: 100%;
+        height: 100vh;
+        z-index: -1;
+        top: 0;
+        transition: all 0.6s ease;
+      }
+      .caroussel-bg-item {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .caroussel-bg-item-01 {
+        background: url('../../images/instacart_bg.jpg') no-repeat center center;
+      }
+      .section {
+        position: relative;
+        overflow: hidden;
+      }
+      .movebg {
+        transform: translate3d(-100vw, 0, 0);
+      }
     </style>
 <!-- FIREBASE-DOCUMENT pour aller lire le statut de la commande en cours -->
     <firebase-document id="firebaseProfil"
@@ -233,89 +260,40 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </app-toolbar>
     </app-header>
 
-    <div class="principal">
-<!--
-      <paper-material class="blocinfo">
-        <div class="caroussel-content">
-          <h2>Titre</h2>
-          <h3>sous-titre</h3>
-          <p>
-            contenu de texte qui doit etre long long long long long long long long long long long long long long long long long long long long
-          </p>
-        </div>
-        <div class="sectionaction">
-          <paper-button raised>next</paper-button>
-        </div>
-      </paper-material>
--->
-      <div class="caroussel blocinfo">
-        <div class="caroussel-scroll">
-          <div id="moveid" class="caroussel-content">
-            <div class="caroussel-item">
-              <div class="caroussel-item-content">
-                <h2>Titre</h2>
-                <h3>sous-titre</h3>
-                <p>
-                  contenu de texte qui doit etre long long long long long long long long long long long long long long long long long long long long
-                </p>
+    <div class="section">
+      <div id="movebg" class="caroussel-bg" style="left: 0px;">
+        <div class="caroussel-bg-item caroussel-bg-item-01"></div>
+        <div class="caroussel-bg-item caroussel-bg-item-01" style="left:100vw;"></div>
+      </div>
+      <div class="principal">
+        <paper-material elevation="2" class="caroussel blocinfo">
+          <div class="caroussel-scroll">
+            <div id="moveid" class="caroussel-content">
+              <div class="caroussel-item">
+                <div class="caroussel-item-content">
+                  <h2>Titre</h2>
+                  <h3>sous-titre</h3>
+                  <p>
+                    contenu de texte qui doit etre long long long long long long long long long long long long long long long long long long long long
+                  </p>
+                </div>
               </div>
-            </div>
-            <div class="caroussel-item">
-              <div class="caroussel-item-content">
-                <h2>Titre</h2>
-                <h3>sous-titre</h3>
-                <p>
-                  contenu de texte qui doit etre long long long long long long long long long long long long long long long long long long long long
-                </p>
+              <div class="caroussel-item">
+                <div class="caroussel-item-content">
+                  <h2>Titre</h2>
+                  <h3>sous-titre<br>2e ligne</h3>
+                  <p>
+                    contenu de texte qui doit etre long long long long long long long long long long long long long long long long long long long long
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+          <div class="sectionaction">
+            <paper-button on-click="_move">next</paper-button>
+          </div>
+        </paper-material>
       </div>
-      <paper-button raised on-click="_move">move</paper-button>
-<!--
-      <div class="infocontextuelle" style="float: left;">
-        <template is="dom-if" if="[[!userauth]]">
-          <h2>Bienvenue!</h2>
-          Connectez-vous ou créez votre compte en un clic!<br><br>
-          <b>Première visite?</b><br>
-          Complétez votre profil alimentaire et nous vous proposerons une liste d'achats pour vous simplifier la vie.
-        </template>
-        <template is="dom-if" if="[[userauth]]">
-          <h2>Bonjour [[userauth.displayName]],</h2>
-          <template is="dom-if" if="{{_isnouveau(profilData)}}">
-            Avez-vous complété votre profil? En répondant a 3 questions toutes simples,
-            notre assistant pourra vous conseiller pour créer votre commande.<br>
-            Cliquez ici pour compléter votre profil: bouton.
-          </template>
-        </template>
-        <div class="mesblocs">
-          <div class="unbloc">
-            <iron-image src="https://source.unsplash.com/category/food/250x250" class="image-bloc" preload fade></iron-image>
-            <b>1- Connexion et Profil</b> <br>
-            Connectez-vous ou créez votre compte en un clic!<br>
-            <b>Première visite?</b><br>
-            Nous vous proposerons une liste d'achats et quantités en nous basant sur votre profil.
-          </div>
-          <div class="unbloc">
-            <iron-image src="https://source.unsplash.com/category/food/250x251" class="image-bloc" preload fade></iron-image>
-            <b>2- Organisation des aliments et produits</b> <br>
-            Les aliments et produits sont catégorisé en trois catégories: Congélateur, Garde-manger, Produits ménagers
-
-          </div>
-          <div class="unbloc">
-            <iron-image src="https://source.unsplash.com/category/food/250x252" class="image-bloc" preload fade></iron-image>
-            <b>3- Validez votre budget</b><br>
-            Tout au long de vos achats, notre assistant vous guidera pour vous permettre de faire des choix éclairés tout en respectant votre budget.
-          </div>
-        </div>
-        <div>
-          <a href="/catalogue" tabindex="-1">
-            <paper-button raised>Commencer</paper-button>
-          </a>
-        </div>
-      </div>
--->
     </div>
 
   </template>
@@ -339,6 +317,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
       _move: function(){
         this.$.moveid.classList.toggle('move');
+        this.$.movebg.classList.toggle('movebg');
       },
       //TODO cette methode est appelee vraiment trop souvent... (4 fois)
       _isnouveau: function(profil){
