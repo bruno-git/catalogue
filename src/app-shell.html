@@ -20,10 +20,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animated-pages.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animatable.html">
+<link rel="import" href="../bower_components/neon-animation/neon-animations.html">
 <link rel="import" href="my-icons.html">
 <link rel="import" href="panier-data.html">
 <link rel="import" href="nouvel-usager.html">
@@ -88,22 +91,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
     </paper-dialog>
 <!-- PAPER-DIALOG (NOUVEL USAGER) -->
-    <paper-dialog id="nouvelUsagerDialog">
+    <paper-dialog
+      id="nouvelUsagerDialog"
+      entry-animation="scale-up-animation"
+      exit-animation="fade-out-animation"
+      with-backdrop>
       <div style="margin-bottom: 0px;">
         <nouvel-usager userauth="[[userauth]]"></nouvel-usager>
       </div>
     </paper-dialog>
 
 <!-- IRON-PAGES -->
-    <iron-pages role="main" selected="[[page]]" attr-for-selected="name">
-      <page-accueil name="accueil" userauth="[[userauth]]"></page-accueil>
-      <page-profil  name="profil"  route="{{subroute}}" userauth="[[userauth]]"></page-profil>
-
-      <page-catalogue name="catalogue" route="{{subroute}}" panier="[[panier]]" userlogged="[[userlogged]]" userauth="[[userauth]]"></page-catalogue>
-      <page-commande  name="commande"  route="{{subroute}}" panier="[[panier]]" userlogged="[[userlogged]]" userauth="[[userauth]]"></page-commande>
+    <neon-animated-pages
+      role="main"
+      selected="[[page]]"
+      attr-for-selected="name"
+      entry-animation="fade-in-animation"
+      exit-animation="fade-out-animation"
+      animate-initial-selection>
+      <neon-animatable name="accueil">
+        <page-accueil userauth="[[userauth]]"></page-accueil>
+      </neon-animatable>
+      <neon-animatable name="profil">
+        <page-profil route="{{subroute}}" userauth="[[userauth]]"></page-profil>
+      </neon-animatable>
+      <neon-animatable name="catalogue">
+        <page-catalogue route="{{subroute}}" panier="[[panier]]" userlogged="[[userlogged]]" userauth="[[userauth]]"></page-catalogue>
+      </neon-animatable>
+      <neon-animatable name="commande">
+        <page-commande route="{{subroute}}" panier="[[panier]]" userlogged="[[userlogged]]" userauth="[[userauth]]"></page-commande>
+      </neon-animatable>
       <!--<page-panier name="panier" userauth="[[userauth]]" panier=[[panier]]></page-panier>-->
 
-    </iron-pages>
+    </neon-animated-pages>
 
   </template>
 

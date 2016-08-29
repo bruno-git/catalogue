@@ -1,0 +1,61 @@
+{
+  "reference" : {
+    "version" : 0.01,
+    "usermodif" : "Bruno",
+    "datemodif" : "29 aout 2016"
+  },
+  "contenu" : [
+    {
+      "titre" : "Titre1",
+      "sous-titre" : "Sous-Titre",
+      "detail" : "Detail avec plein de choses style lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ",
+      "statut" : "statut1"
+    },
+    {
+      "titre" : "Titre1-2",
+      "sous-titre" : "Sous-Titre1-2",
+      "detail" : "Detail avec plein de choses style lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ",
+      "statut" : "statut1"
+    },
+    {
+      "titre" : "Titre1-3",
+      "sous-titre" : "Sous-Titre1-3",
+      "detail" : "Detail avec plein de choses style lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ",
+      "statut" : "statut1"
+    },
+    {
+      "titre" : "Titre3",
+      "sous-titre" : "Sous-Titre",
+      "detail" : "Detail avec plein de choses style lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ",
+      "statut" : "statut2"
+    },
+    {
+      "titre" : "Titre4",
+      "sous-titre" : "Sous-Titre",
+      "detail" : "Detail avec plein de choses style lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ",
+      "statut" : "statut2"
+    }
+  ],
+  "categories" : [
+    {
+      "nom" : "poulet",
+      "titre" : "Poulet",
+      "zone": "congelateur"
+    },
+    {
+      "nom" : "boeuf",
+      "titre" : "Boeuf",
+      "zone": "congelateur"
+    },
+    {
+      "nom" : "porc",
+      "titre" : "Porc",
+      "zone": "congelateur"
+    },
+    {
+      "nom" : "agneau",
+      "titre" : "Agneau",
+      "zone": "congelateur"
+    }
+  ]
+}
