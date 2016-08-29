@@ -42,12 +42,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: black;
       }
       paper-icon-button {
-        --paper-icon-button-ink-color: white;
-        color: white;
+        --paper-icon-button-ink-color: black;
+        color: black;
       }
       app-toolbar {
-        background-color: var(--app-primary-color);
-        color: white;
+        /*background-color: var(--app-primary-color);
+        color: white;*/
+        background-color: #f3f3f3;
+        color: black;
       }
       app-drawer {
         --app-drawer-content-container: {
@@ -103,7 +105,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <app-header fixed effects="waterfall">
         <app-toolbar>
           <div class="aucentre">
-            <iron-image src="../../images/epicier_blanc.png"></iron-image>
+            <iron-image src="../../images/epicier.png"></iron-image>
           </div>
           <a href="/catalogue" tabindex="-1">
             <paper-icon-button icon="arrow-back"></paper-icon-button>
@@ -132,6 +134,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </div>
           <a name="panier" href="/commande/panier" tabindex="-1">
             <paper-icon-button icon="shopping-cart"style="width:40px;height:40px;"></paper-icon-button>
+          </a>
+          <a name="catalogue" href="/catalogue" tabindex="-1">
+            <paper-icon-button icon="apps"></paper-icon-button>
           </a>
         </app-toolbar>
       </app-header>

@@ -209,7 +209,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         height: 100%;
       }
       .caroussel-bg-item-01 {
-        background: url('../../images/instacart_bg.jpg') no-repeat center center;
+        background: url('../../images/bg-security-01.jpg') no-repeat center center;
+        background-size: cover;
+
+      }
+      .caroussel-bg-item-02 {
+        background: url('../../images/bg-security-02.jpg') no-repeat center center;
+        background-size: cover;
       }
       .section {
         position: relative;
@@ -245,8 +251,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <iron-dropdown id="menu"
             no-overlap
             horizontal-align="right">
-            <div class="dropdown-content">
-              <a href="/profil" zindex="-1">
+            <div class="dropdown-content" z-index="10">
+              <a href="/profil" tabindex="-1">
                 <paper-button>Mon profil</paper-button>
               </a>
               <paper-button on-click="_logout">Déconnexion</paper-button>
@@ -256,14 +262,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <a name="panier" href="/commande/panier" tabindex="-1">
           <paper-icon-button icon="shopping-cart"style="width:40px;height:40px;"></paper-icon-button>
         </a>
-        <paper-icon-button icon="apps"></paper-icon-button>
+        <a name="catalogue" href="/catalogue" tabindex="-1">
+          <paper-icon-button icon="apps"></paper-icon-button>
+        </a>
       </app-toolbar>
     </app-header>
 
     <div class="section">
       <div id="movebg" class="caroussel-bg" style="left: 0px;">
         <div class="caroussel-bg-item caroussel-bg-item-01"></div>
-        <div class="caroussel-bg-item caroussel-bg-item-01" style="left:100vw;"></div>
+        <div class="caroussel-bg-item caroussel-bg-item-02" style="left:100vw;"></div>
       </div>
       <div class="principal">
         <paper-material elevation="2" class="caroussel blocinfo">
@@ -290,7 +298,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </div>
           </div>
           <div class="sectionaction">
-            <paper-button on-click="_move">next</paper-button>
+            <paper-button on-click="_move">suivant</paper-button>
           </div>
         </paper-material>
       </div>
